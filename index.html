@@ -32,8 +32,6 @@
             color: #2563eb;
             font-weight: 700;
         }
-
-        /* Removed Sidebar transitions */
         
         #modal-container {
             transition: opacity 0.3s ease-in-out;
@@ -41,7 +39,7 @@
             -webkit-backdrop-filter: blur(4px);
         }
 
-        .card:active {
+        .card:active, .action-btn:active {
             transform: scale(0.98);
         }
 
@@ -65,7 +63,7 @@
         }
     </style>
 </head>
-<body class="antialiased text-gray-800 pb-28 md:pb-0"> <!-- Increased padding bottom -->
+<body class="antialiased text-gray-800 pb-24 md:pb-0">
 
     <div class="container mx-auto px-3 pt-4 max-w-5xl">
         <!-- Header -->
@@ -88,116 +86,123 @@
         </div>
 
         <main id="mainContent" class="hidden">
-            <!-- Desktop Tabs (Hidden on Mobile) -->
-            <div class="hidden md:block mb-6 border-b border-gray-200">
-                <nav class="flex -mb-px space-x-8 justify-center" aria-label="Tabs">
-                    <button id="tab-info" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-blue-600 hover:border-blue-300 tab-active transition-colors">
-                        ច្បាប់ចេញក្រៅ
-                    </button>
-                    <button id="tab-leave" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-blue-600 hover:border-blue-300 transition-colors">
-                        ច្បាប់ឈប់សម្រាក
-                    </button>
-                     <button id="tab-combined" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-blue-600 hover:border-blue-300 transition-colors">
-                        ច្បាប់រួម
-                    </button>
-                </nav>
-            </div>
-
-            <!-- Inline Filter Section (NEW) -->
-            <div id="filter-container" class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4">
-                <div class="flex justify-between items-center mb-3 md:hidden">
-                    <h3 class="text-sm font-bold text-gray-700 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/></svg>
-                        តម្រងទិន្នន័យ
-                    </h3>
+            <!-- Data Pages Content (Data Grid & Pagination) -->
+            <div id="data-view">
+                <div class="flex justify-between items-center mb-4 px-1">
+                    <div id="summaryText" class="text-gray-600 text-sm font-medium"></div>
+                    <!-- Active Filter Badge (Shows if filters are applied) -->
+                    <div id="activeFilterBadge" class="hidden bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded-full">
+                        កំពុងប្រើតម្រង
+                    </div>
                 </div>
-                <div class="grid grid-cols-12 gap-3">
-                    <!-- Search -->
-                    <div class="col-span-12 md:col-span-6">
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <input type="text" id="searchInput" placeholder="ស្វែងរកឈ្មោះ ឬ អត្តលេខ..." class="pl-10 w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50 text-sm">
+
+                <!-- Loading -->
+                <div id="loader" class="flex flex-col items-center justify-center py-12 hidden">
+                     <div class="loader w-8 h-8 border-4 border-blue-100 border-t-blue-600 rounded-full mb-3"></div>
+                     <p class="text-gray-500 text-sm animate-pulse">កំពុងទាញទិន្នន័យ...</p>
+                </div>
+
+                <!-- Error -->
+                <div id="errorMessage" class="hidden bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-r-lg mb-4 shadow-sm" role="alert">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-5 h-5 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                        <div class="flex-grow">
+                            <strong class="font-bold block">មានបញ្ហា!</strong>
+                            <span class="text-sm block mt-1" id="errorText"></span>
+                             <button id="changeApiKeyButton" class="mt-2 text-xs font-bold bg-red-100 hover:bg-red-200 px-3 py-1.5 rounded text-red-800 transition">
+                                ផ្លាស់ប្ដូរ API Key
+                            </button>
                         </div>
                     </div>
-                    <!-- Year -->
-                    <div class="col-span-6 md:col-span-3">
-                        <select id="yearFilter" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50 text-sm"></select>
-                    </div>
-                    <!-- Month -->
-                    <div class="col-span-6 md:col-span-3">
-                        <select id="monthFilter" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50 text-sm"></select>
-                    </div>
                 </div>
+
+                <!-- Data Grid -->
+                <div id="data-container" class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4"></div>
+
+                <!-- Pagination -->
+                <div id="pagination-container" class="mt-8 mb-4 flex justify-center items-center"></div>
             </div>
 
-            <!-- Control Bar (Summary & Buttons) -->
-            <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mb-4 px-1">
-                <div id="summaryText" class="text-gray-600 text-sm font-medium self-start sm:self-center"></div>
+            <!-- SETTINGS PAGE (New) -->
+            <div id="settings-page" class="hidden space-y-4 max-w-2xl mx-auto">
                 
-                <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-                     <button id="todayButton" title="ទិន្នន័យថ្ងៃនេះ" class="hidden flex-shrink-0 text-gray-500 bg-white hover:text-indigo-600 p-2 rounded-lg shadow-sm hover:bg-indigo-50 transition border border-gray-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                <!-- Filters Section -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="text-blue-600" viewBox="0 0 16 16">
+                            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
                         </svg>
-                        <span class="text-xs ml-1 hidden sm:inline">ថ្ងៃនេះ</span>
-                    </button>
-                    
-                    <button id="notReturnedButton" title="អ្នកមិនទាន់ចូលមកវិញ" class="hidden flex-shrink-0 text-gray-500 bg-white hover:text-orange-600 p-2 rounded-lg shadow-sm hover:bg-orange-50 transition border border-gray-200 relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
-                            <path d="M4.5 8.246c1.22-.524 2.688-1.246 3.5-1.492V8.5h-1v1h1v1.5a.5.5 0 0 1-1 0V11h-1v1h1v1.5a.5.5 0 0 1-1 0V13h-1v1h1v1h2v-1h1v-1h-1v-1.5a.5.5 0 0 1 1 0V11h1v-1h-1V8.5h1v-1h-1V6c.61.278 2.27.952 3.5 1.5a.5.5 0 0 1 .491.595c-.126.3-.39.54-1.214.773-.822.23-2.1.38-3.286.38-1.186 0-2.464-.15-3.286-.38-.824-.233-1.088-.473-1.214-.773a.5.5 0 0 1 .491-.595"/>
-                        </svg>
-                        <span class="absolute top-0 right-0 -mt-1 -mr-1 flex h-3 w-3">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
-                        </span>
-                    </button>
-
-                    <button id="summaryButton" title="សរុបការឈប់សម្រាក" class="hidden flex-shrink-0 text-gray-500 bg-white hover:text-green-600 p-2 rounded-lg shadow-sm hover:bg-green-50 transition border border-gray-200">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h-2V2h2v12zm-3 0V7H7v7h2zm-4 0v-3H2v3h2z"/>
-                        </svg>
-                    </button>
-                    
-                    <button id="refreshButton" title="ផ្ទុកទិន្នន័យឡើងវិញ" class="flex-shrink-0 text-gray-500 bg-white hover:text-blue-600 p-2 rounded-lg shadow-sm hover:bg-blue-50 transition border border-gray-200">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
-                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
-                        </svg>
-                    </button>
+                        តម្រងទិន្នន័យ
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">ស្វែងរក</label>
+                            <input type="text" id="searchInput" placeholder="ឈ្មោះ ឬ អត្តលេខ..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50 text-sm">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-1">ឆ្នាំ</label>
+                                <select id="yearFilter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50 text-sm"></select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-1">ខែ</label>
+                                <select id="monthFilter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50 text-sm"></select>
+                            </div>
+                        </div>
+                        <button id="applyFilterButton" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium shadow-sm hover:bg-blue-700 active:bg-blue-800 transition">
+                            បង្ហាញទិន្នន័យ
+                        </button>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Loading -->
-            <div id="loader" class="flex flex-col items-center justify-center py-12 hidden">
-                 <div class="loader w-8 h-8 border-4 border-blue-100 border-t-blue-600 rounded-full mb-3"></div>
-                 <p class="text-gray-500 text-sm animate-pulse">កំពុងទាញទិន្នន័យ...</p>
-            </div>
 
-            <!-- Error -->
-            <div id="errorMessage" class="hidden bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-r-lg mb-4 shadow-sm" role="alert">
-                <div class="flex items-start gap-3">
-                    <svg class="w-5 h-5 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                    <div class="flex-grow">
-                        <strong class="font-bold block">មានបញ្ហា!</strong>
-                        <span class="text-sm block mt-1" id="errorText"></span>
-                         <button id="changeApiKeyButton" class="mt-2 text-xs font-bold bg-red-100 hover:bg-red-200 px-3 py-1.5 rounded text-red-800 transition">
-                            ផ្លាស់ប្ដូរ API Key
+                <!-- Actions Section -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="text-indigo-600" viewBox="0 0 16 16">
+                            <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                        </svg>
+                        ម៉ឺនុយ
+                    </h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button id="todayButton" class="action-btn flex flex-col items-center justify-center p-4 bg-indigo-50 rounded-xl border border-indigo-100 hover:bg-indigo-100 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-indigo-600 mb-2" viewBox="0 0 16 16">
+                                <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                            </svg>
+                            <span class="text-sm font-bold text-indigo-800">ទិន្នន័យថ្ងៃនេះ</span>
+                        </button>
+
+                        <button id="notReturnedButton" class="action-btn flex flex-col items-center justify-center p-4 bg-orange-50 rounded-xl border border-orange-100 hover:bg-orange-100 transition relative overflow-hidden">
+                            <div class="relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-orange-600 mb-2" viewBox="0 0 16 16">
+                                    <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                                    <path d="M4.5 8.246c1.22-.524 2.688-1.246 3.5-1.492V8.5h-1v1h1v1.5a.5.5 0 0 1-1 0V11h-1v1h1v1.5a.5.5 0 0 1-1 0V13h-1v1h1v1h2v-1h1v-1h-1v-1.5a.5.5 0 0 1 1 0V11h1v-1h-1V8.5h1v-1h-1V6c.61.278 2.27.952 3.5 1.5a.5.5 0 0 1 .491.595c-.126.3-.39.54-1.214.773-.822.23-2.1.38-3.286.38-1.186 0-2.464-.15-3.286-.38-.824-.233-1.088-.473-1.214-.773a.5.5 0 0 1 .491-.595"/>
+                                </svg>
+                                <span id="notReturnedBadge" class="hidden absolute top-0 right-0 -mt-1 -mr-2 flex h-3 w-3">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                                </span>
+                            </div>
+                            <span class="text-sm font-bold text-orange-800">មិនទាន់ចូល</span>
+                        </button>
+
+                        <button id="summaryButton" class="action-btn flex flex-col items-center justify-center p-4 bg-green-50 rounded-xl border border-green-100 hover:bg-green-100 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-green-600 mb-2" viewBox="0 0 16 16">
+                                <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h-2V2h2v12zm-3 0V7H7v7h2zm-4 0v-3H2v3h2z"/>
+                            </svg>
+                            <span class="text-sm font-bold text-green-800">សរុបឈប់សម្រាក</span>
+                        </button>
+
+                        <button id="refreshButton" class="action-btn flex flex-col items-center justify-center p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-gray-600 mb-2" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                            </svg>
+                            <span class="text-sm font-bold text-gray-800">Refresh</span>
                         </button>
                     </div>
                 </div>
             </div>
-
-            <!-- Data Grid -->
-            <div id="data-container" class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4"></div>
-
-            <!-- Pagination -->
-            <div id="pagination-container" class="mt-8 mb-4 flex justify-center items-center"></div>
         </main>
         
     </div>
@@ -228,11 +233,11 @@
                 <span class="text-[10px] text-gray-500 group-hover:text-blue-600 transition-colors duration-200">ច្បាប់រួម</span>
             </button>
 
-             <button type="button" id="nav-btn-filter" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group transition-all duration-200">
-                <svg class="w-6 h-6 mb-1 text-gray-500 group-hover:text-blue-600 transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+             <button type="button" id="nav-btn-settings" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group transition-all duration-200">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="w-6 h-6 mb-1 text-gray-500 group-hover:text-blue-600 transition-colors duration-200" viewBox="0 0 16 16">
+                    <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
                 </svg>
-                <span class="text-[10px] text-gray-500 group-hover:text-blue-600 transition-colors duration-200">តម្រង</span>
+                <span class="text-[10px] text-gray-500 group-hover:text-blue-600 transition-colors duration-200">ការកំណត់</span>
             </button>
         </div>
     </div>
@@ -269,29 +274,29 @@
         const dataContainer = document.getElementById('data-container');
         const searchInput = document.getElementById('searchInput');
         const summaryText = document.getElementById('summaryText');
+        const activeFilterBadge = document.getElementById('activeFilterBadge');
         
-        // Filter Container
-        const filterContainer = document.getElementById('filter-container');
+        const dataView = document.getElementById('data-view');
+        const settingsPage = document.getElementById('settings-page');
 
-        // Desktop Tabs
-        const tabInfo = document.getElementById('tab-info');
-        const tabLeave = document.getElementById('tab-leave');
-        const tabCombined = document.getElementById('tab-combined');
-        
         // Mobile Nav Buttons
         const navBtnInfo = document.getElementById('nav-btn-info');
         const navBtnLeave = document.getElementById('nav-btn-leave');
         const navBtnCombined = document.getElementById('nav-btn-combined');
-        const navBtnFilter = document.getElementById('nav-btn-filter');
+        const navBtnSettings = document.getElementById('nav-btn-settings');
 
         const monthFilter = document.getElementById('monthFilter');
         const yearFilter = document.getElementById('yearFilter');
+        const applyFilterButton = document.getElementById('applyFilterButton');
         const modalContainer = document.getElementById('modal-container');
         const modalContent = document.getElementById('modal-content');
+        
         const refreshButton = document.getElementById('refreshButton');
         const summaryButton = document.getElementById('summaryButton');
         const notReturnedButton = document.getElementById('notReturnedButton');
+        const notReturnedBadge = document.getElementById('notReturnedBadge');
         const todayButton = document.getElementById('todayButton');
+        
         const changeApiKeyButton = document.getElementById('changeApiKeyButton');
 
 
@@ -300,7 +305,7 @@
         let profileData = {};
         let currentTab = 'info';
         let currentPage = 1;
-        let cardsPerPage = 14; // កំណត់លំនាំដើមជា 14
+        let cardsPerPage = 14; 
         let filterDate = null;
         let touchStartX = 0;
         let touchEndX = 0;
@@ -325,22 +330,14 @@
 
         const parseDateForSort = (dateStr) => {
             if (!dateStr || typeof dateStr !== 'string') return new Date(0);
-            
             const englishDateStr = toEnglishNumber(dateStr);
-
             const parsed = new Date(englishDateStr);
-            if (!isNaN(parsed.getTime())) {
-                return parsed;
-            }
-
+            if (!isNaN(parsed.getTime())) return parsed;
             const parts = englishDateStr.split('/');
             if (parts.length === 3) {
                 const date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-                 if (!isNaN(date.getTime())) {
-                    return date;
-                }
+                 if (!isNaN(date.getTime())) return date;
             }
-            
             return new Date(0);
         };
         
@@ -392,6 +389,7 @@
         function combineAndSortData() {
             const combined = [...allData.info, ...allData.leave];
             allData.combined = combined.sort((a, b) => b.sortDate - a.sortDate);
+            checkNotReturnedStatus();
         }
 
         function parseProfileData(rows) {
@@ -401,17 +399,10 @@
             rows.forEach(row => {
                 if (row && (row[0] !== null && row[0] !== undefined && row[0] !== '')) {
                     const id = String(row[0]); 
-                    
                     let photoUrl = row[11] || '';
                     const match = photoUrl.match(imageUrlRegex);
-                    if (match && match[1]) {
-                        photoUrl = match[1]; 
-                    }
-
-                    profileMap[id.trim()] = {
-                        photo: photoUrl,
-                        department: row[14] || ''
-                    };
+                    if (match && match[1]) photoUrl = match[1]; 
+                    profileMap[id.trim()] = { photo: photoUrl, department: row[14] || '' };
                 }
             });
             return profileMap;
@@ -421,24 +412,23 @@
         function showError(message) {
             let displayMessage = message;
             let showChangeKeyButton = false;
-
             if (message.includes("API key not valid")) {
                 displayMessage = "API Key មិនត្រឹមត្រូវទេ។ សូមពិនិត្យ API Key របស់អ្នក រួចព្យាយាមម្តងទៀត។";
                 showChangeKeyButton = true;
             } else if (message.includes("not found")) {
                 displayMessage = "រកមិនឃើញ Sheet ដែលបានកំណត់ទេ។ សូមពិនិត្យឈ្មោះ Sheet ឡើងវិញ។";
             }
-            
             errorText.textContent = displayMessage;
             errorMessage.classList.remove('hidden');
             loader.classList.add('hidden');
             changeApiKeyButton.classList.toggle('hidden', !showChangeKeyButton);
         }
 
-
         function hideError() { errorMessage.classList.add('hidden'); }
         
         function getFilteredData() {
+            // If we are in settings, we don't filter data yet, but when in data tabs we do
+            // We use the values from the settings page inputs to filter data
             const dataToFilter = allData[currentTab] || [];
             const searchTerm = searchInput.value.toLowerCase();
             const selectedYear = yearFilter.value;
@@ -458,21 +448,36 @@
                 } else {
                     dateMatch = (itemDate.getFullYear() == selectedYear && (itemDate.getMonth() + 1) == selectedMonth);
                 }
-
                 return searchMatch && dateMatch;
             });
         }
         
         function render() {
             hideError();
-            dataContainer.innerHTML = '';
-            const filteredData = getFilteredData();
-
-            if (currentTab === 'combined') {
-                renderCombinedView(filteredData);
+            
+            if (currentTab === 'settings') {
+                dataView.classList.add('hidden');
+                settingsPage.classList.remove('hidden');
             } else {
-                renderStandardView(filteredData);
+                settingsPage.classList.add('hidden');
+                dataView.classList.remove('hidden');
+                
+                dataContainer.innerHTML = '';
+                const filteredData = getFilteredData();
+                
+                // Show active filter badge if filtering
+                const isFiltering = searchInput.value !== '' || filterDate !== null;
+                activeFilterBadge.classList.toggle('hidden', !isFiltering);
+                if(filterDate) activeFilterBadge.textContent = "តម្រង: ថ្ងៃនេះ";
+                else activeFilterBadge.textContent = "កំពុងប្រើតម្រង";
+
+                if (currentTab === 'combined') {
+                    renderCombinedView(filteredData);
+                } else {
+                    renderStandardView(filteredData);
+                }
             }
+            updateMobileNavState(currentTab);
         }
 
         function renderStandardView(filteredData) {
@@ -491,7 +496,6 @@
                     const placeholderImg = `https://placehold.co/80x80/e2e8f0/64748b?text=${(item.name || '?').charAt(0)}`;
                     const card = document.createElement('div');
                     
-                    // Conditional Styling based on type
                     const isInfo = item.type === 'info';
                     const borderColor = isInfo ? 'border-blue-100' : 'border-green-100';
                     const nameColor = isInfo ? 'text-blue-700' : 'text-green-700';
@@ -514,9 +518,7 @@
                                 </div>
                                 <span class="text-[10px] sm:text-xs font-bold ${badgeBg} px-2 py-1 rounded-full flex-shrink-0 whitespace-nowrap">${toKhmerNumber(item.duration)}</span>
                             </div>
-                            
                             <p class="text-sm text-gray-600 mb-2 truncate">${profile.department || item.class || 'គ្មានផ្នែក'}</p>
-                            
                             <div class="text-xs sm:text-sm text-gray-700 border-t border-dashed pt-2 mt-2">
                                 <p class="mb-1 truncate"><span class="text-gray-400">មូលហេតុ:</span> ${item.reason || 'N/A'}</p>
                     `;
@@ -534,20 +536,17 @@
                         const dateDisplay = (isSingleDay || !item.dateEnd) 
                             ? `<span>កាលបរិច្ឆេទ: ${toKhmerNumber(item.date)}</span>`
                             : `<span>${toKhmerNumber(item.date)} - ${toKhmerNumber(item.dateEnd)}</span>`;
-                            
-                         contentHTML += `
+                        contentHTML += `
                                 <div class="flex justify-between text-xs text-gray-500">
                                     ${dateDisplay}
                                 </div>
                             </div>
                         </div>`;
                     }
-                    
                     card.innerHTML = contentHTML;
                     dataContainer.appendChild(card);
                 });
             }
-            handleSummaryDisplay(filteredData);
             renderPagination(filteredData.length);
         }
 
@@ -582,7 +581,6 @@
                     const card = document.createElement('div');
                     card.className = 'card bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 cursor-pointer hover:shadow-md transition-all duration-200';
                     card.style.animationDelay = `${index * 0.05}s`;
-                    
                     const originalItem = filteredData.find(i => i.id === summary.id);
                     card.onclick = () => showModal(originalItem, summary.profile);
 
@@ -592,7 +590,6 @@
                             <h3 class="font-bold text-base text-gray-800 truncate">${summary.name || 'គ្មានឈ្មោះ'}</h3>
                             <p class="text-xs text-gray-400 font-mono">${toKhmerNumber(summary.id)}</p>
                             <p class="text-sm text-gray-500 truncate mb-2">${summary.profile.department || 'គ្មានផ្នែក'}</p>
-                            
                             <div class="flex gap-2">
                                  <div class="text-xs font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">ចេញ: ${toKhmerNumber(summary.infoCount)}</div>
                                  <div class="text-xs font-semibold bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-100">សម្រាក: ${toKhmerNumber(summary.leaveCount)}</div>
@@ -605,8 +602,6 @@
                     dataContainer.appendChild(card);
                 });
             }
-
-            handleSummaryDisplay(filteredData);
             renderPagination(summaryArray.length);
         }
         
@@ -614,24 +609,12 @@
             const paginationContainer = document.getElementById('pagination-container');
             paginationContainer.innerHTML = '';
             const totalPages = Math.ceil(totalItems / cardsPerPage);
-
             if (totalPages <= 1) return;
 
             let paginationHTML = '';
-
-            // Previous Button
-            paginationHTML += `<button class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-200 shadow-sm text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>
-            </button>`;
-
-            // Page numbers
+            paginationHTML += `<button class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-200 shadow-sm text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg></button>`;
             paginationHTML += `<span class="mx-4 text-sm font-medium text-gray-600">ទំព័រ ${toKhmerNumber(currentPage)} / ${toKhmerNumber(totalPages)}</span>`;
-
-            // Next Button
-            paginationHTML += `<button class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-200 shadow-sm text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
-                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
-            </button>`;
-
+            paginationHTML += `<button class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-200 shadow-sm text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg></button>`;
             paginationContainer.innerHTML = `<div class="flex items-center select-none">${paginationHTML}</div>`;
         }
 
@@ -641,41 +624,12 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function handleSummaryDisplay(data) {
-            summaryButton.classList.toggle('hidden', currentTab !== 'leave' || data.length === 0);
-            
-            if (currentTab === 'leave' && data.length > 0) {
-                 const summary = data.reduce((acc, item) => {
-                    if (!acc[item.id]) {
-                        acc[item.id] = { count: 0, days: 0, name: item.name, id: item.id };
-                    }
-                    acc[item.id].count++;
-                    const durationStr = item.duration || '';
-                    if (durationStr.includes('ព្រឹក') || durationStr.includes('រសៀល') || durationStr.includes('យប់')) {
-                        acc[item.id].days += 0.5;
-                    } else {
-                        const days = parseFloat(durationStr);
-                        acc[item.id].days += isNaN(days) ? 1 : days;
-                    }
-                    return acc;
-                }, {});
-                const summaryArray = Object.values(summary).sort((a,b) => b.days - a.days);
-                summaryButton.onclick = () => showSummaryModal(summaryArray);
-            }
-        }
-
         // --- UI & FILTERS ---
-        
-        function toggleInlineFilter() {
-             filterContainer.classList.toggle('hidden');
-        }
-
         function populateDateFilters() {
             const now = new Date();
             const currentYear = now.getFullYear();
             const currentMonth = now.getMonth() + 1;
 
-            // Populate Years
             yearFilter.innerHTML = '';
             for (let y = currentYear + 1; y >= 2020; y--) {
                 const option = document.createElement('option');
@@ -685,7 +639,6 @@
             }
             yearFilter.value = currentYear;
             
-            // Populate Months
             monthFilter.innerHTML = '';
             const khmerMonths = ["មករា", "កុម្ភៈ", "មីនា", "មេសា", "ឧសភា", "មិថុនា", "កក្កដា", "សីហា", "កញ្ញា", "តុលា", "វិច្ឆិកា", "ធ្នូ"];
             for (let m = 1; m <= 12; m++) {
@@ -699,21 +652,7 @@
 
         function switchTab(tabName) {
             currentTab = tabName;
-            
-            // Update Desktop Tabs
-            tabInfo.classList.toggle('tab-active', tabName === 'info');
-            tabLeave.classList.toggle('tab-active', tabName === 'leave');
-            tabCombined.classList.toggle('tab-active', tabName === 'combined');
-            
-            // Update Mobile Nav
-            updateMobileNavState(tabName);
-
-            // Toggle specific buttons
-            notReturnedButton.classList.toggle('hidden', tabName !== 'info');
-            todayButton.classList.toggle('hidden', tabName === 'combined');
-            
-            // Reset state
-            filterDate = null;
+            // Reset state when switching tabs
             currentPage = 1;
             render();
         }
@@ -722,7 +661,8 @@
              const navButtons = [
                 { btn: navBtnInfo, name: 'info' },
                 { btn: navBtnLeave, name: 'leave' },
-                { btn: navBtnCombined, name: 'combined' }
+                { btn: navBtnCombined, name: 'combined' },
+                { btn: navBtnSettings, name: 'settings' }
             ];
 
             navButtons.forEach(item => {
@@ -745,12 +685,22 @@
                 }
             });
         }
+
+        // Helper to check if there are not returned people
+        function checkNotReturnedStatus() {
+            const now = new Date();
+            const notReturnedList = allData.info.filter(item => {
+                if (item.timeIn && item.timeIn.trim() !== '') return false;
+                const itemDate = parseDateForSort(item.dateOut);
+                return (itemDate.getFullYear() == now.getFullYear() && (itemDate.getMonth() + 1) == (now.getMonth()+1));
+            });
+            notReturnedBadge.classList.toggle('hidden', notReturnedList.length === 0);
+        }
         
-        // --- Modal ---
+        // --- Modal Logic ---
         function showNotReturnedModal() {
             const selectedYear = yearFilter.value;
             const selectedMonth = monthFilter.value;
-
             const notReturnedList = allData.info.filter(item => {
                 if (item.timeIn && item.timeIn.trim() !== '') return false;
                 const itemDate = parseDateForSort(item.dateOut);
@@ -783,15 +733,34 @@
                         </div>`;
                 });
             }
-
             modalHTML += '</div>';
-
             modalContent.innerHTML = modalHTML;
             modalContainer.classList.remove('hidden');
             modalContainer.classList.add('flex');
         }
 
         function showSummaryModal(summaryArray) {
+             // Calculate if not passed, otherwise reuse existing calculation logic
+             if(!summaryArray) {
+                 const data = allData.leave.filter(item => {
+                     const itemDate = parseDateForSort(item.date);
+                     return (itemDate.getFullYear() == yearFilter.value && (itemDate.getMonth() + 1) == monthFilter.value);
+                 });
+                 
+                 const summary = data.reduce((acc, item) => {
+                    if (!acc[item.id]) acc[item.id] = { count: 0, days: 0, name: item.name, id: item.id };
+                    acc[item.id].count++;
+                    const durationStr = item.duration || '';
+                    if (durationStr.includes('ព្រឹក') || durationStr.includes('រសៀល') || durationStr.includes('យប់')) acc[item.id].days += 0.5;
+                    else {
+                        const days = parseFloat(durationStr);
+                        acc[item.id].days += isNaN(days) ? 1 : days;
+                    }
+                    return acc;
+                }, {});
+                summaryArray = Object.values(summary).sort((a,b) => b.days - a.days);
+             }
+
             let modalHTML = `
                 <div class="bg-green-50 p-4 border-b border-green-100 flex justify-between items-center rounded-t-2xl">
                     <h2 class="font-bold text-lg text-green-800">សរុបការឈប់សម្រាកប្រចាំខែ</h2>
@@ -808,21 +777,24 @@
                         </thead>
                         <tbody class="divide-y divide-gray-100">`;
             
-            summaryArray.forEach(emp => {
-                 modalHTML += `
-                    <tr class="bg-white hover:bg-gray-50">
-                        <td class="px-4 py-3 font-medium text-gray-900">
-                            <div class="flex flex-col">
-                                <span>${emp.name}</span>
-                                <span class="text-[10px] text-gray-400 font-mono">${toKhmerNumber(emp.id)}</span>
-                            </div>
-                        </td>
-                        <td class="px-4 py-3 text-center">${toKhmerNumber(emp.count)}</td>
-                        <td class="px-4 py-3 text-center font-bold text-green-600">${toKhmerNumber(emp.days)}</td>
-                    </tr>`;
-            });
+            if(summaryArray.length === 0) {
+                modalHTML += `<tr><td colspan="3" class="text-center py-8 text-gray-500">គ្មានទិន្នន័យឈប់សម្រាកក្នុងខែនេះទេ។</td></tr>`;
+            } else {
+                summaryArray.forEach(emp => {
+                     modalHTML += `
+                        <tr class="bg-white hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium text-gray-900">
+                                <div class="flex flex-col">
+                                    <span>${emp.name}</span>
+                                    <span class="text-[10px] text-gray-400 font-mono">${toKhmerNumber(emp.id)}</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 text-center">${toKhmerNumber(emp.count)}</td>
+                            <td class="px-4 py-3 text-center font-bold text-green-600">${toKhmerNumber(emp.days)}</td>
+                        </tr>`;
+                });
+            }
             modalHTML += '</tbody></table></div>';
-            
             modalContent.innerHTML = modalHTML;
             modalContainer.classList.remove('hidden');
             modalContainer.classList.add('flex');
@@ -924,9 +896,7 @@
             if(leaveRecords.length === 0 && infoRecords.length === 0){
                 modalHTML += `<p class="text-center text-gray-400 text-sm py-2">គ្មានកំណត់ត្រាលម្អិត</p>`;
             }
-
             modalHTML += `</div>`;
-            
             modalContent.innerHTML = modalHTML;
             modalContainer.classList.remove('hidden');
             modalContainer.classList.add('flex');
@@ -955,10 +925,9 @@
             combineAndSortData();
             loader.classList.add('hidden');
             
-            if(infoRows || leaveRows){
-                // Stay on current tab if already selected, else default to info
-                switchTab(currentTab || 'info');
-            }
+            // Always start on info unless manually changed logic added
+            if(currentTab === 'settings') render(); // Keep settings if active
+            else switchTab(currentTab);
         }
         
         // --- API Key Handling ---
@@ -978,7 +947,6 @@
         changeApiKeyButton.addEventListener('click', () => {
             localStorage.removeItem('googleApiKey');
             GOOGLE_API_KEY = '';
-            
             mainContent.classList.add('hidden');
             errorMessage.classList.add('hidden');
             apiKeySection.classList.remove('hidden');
@@ -987,12 +955,8 @@
 
         function checkApiKey() {
             populateDateFilters();
-            
-            // Only overwrite with local storage if it exists, otherwise keep the hardcoded one
             const savedKey = localStorage.getItem('googleApiKey');
-            if (savedKey) {
-                GOOGLE_API_KEY = savedKey;
-            }
+            if (savedKey) GOOGLE_API_KEY = savedKey;
 
             if (GOOGLE_API_KEY) {
                  apiKeySection.classList.add('hidden');
@@ -1021,56 +985,49 @@
             filterDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
             yearFilter.value = now.getFullYear();
             monthFilter.value = now.getMonth() + 1;
-            currentPage = 1;
-            render();
+            
+            // Switch to info tab to see results
+            switchTab('info');
+        });
+
+        applyFilterButton.addEventListener('click', () => {
+            // User applied specific filters in Settings page
+            filterDate = null; // Clear exact date filter if any
+            switchTab('info'); // Go to data view
         });
 
         notReturnedButton.addEventListener('click', showNotReturnedModal);
+        summaryButton.addEventListener('click', () => showSummaryModal(null));
         
-        // Desktop Tab Listeners
-        tabInfo.addEventListener('click', () => switchTab('info'));
-        tabLeave.addEventListener('click', () => switchTab('leave'));
-        tabCombined.addEventListener('click', () => switchTab('combined'));
-        
-        // Mobile Nav Listeners
         navBtnInfo.addEventListener('click', () => switchTab('info'));
         navBtnLeave.addEventListener('click', () => switchTab('leave'));
         navBtnCombined.addEventListener('click', () => switchTab('combined'));
-        navBtnFilter.addEventListener('click', toggleInlineFilter);
+        navBtnSettings.addEventListener('click', () => switchTab('settings'));
 
-        [searchInput, monthFilter, yearFilter].forEach(el => el.addEventListener('input', () => {
-             filterDate = null;
-             currentPage = 1;
-             render();
-        }));
-        
         modalContainer.addEventListener('click', (e) => {
             if (e.target === modalContainer) hideModal();
         });
 
         function updateCardsPerPage() {
-            // កំណត់ចំនួន Card បង្ហាញក្នុងមួយទំព័រជា 14 គ្រប់ទំហំអេក្រង់
             cardsPerPage = 14;
         }
 
         function handleSwipeGesture() {
+            // Disable swipe on settings page
+            if(currentTab === 'settings') return;
+
             const swipeThreshold = 50; 
             const filteredData = getFilteredData();
             const totalPages = Math.ceil(filteredData.length / cardsPerPage);
 
             if (touchEndX < touchStartX - swipeThreshold) { 
-                if (currentPage < totalPages) {
-                    changePage(currentPage + 1);
-                }
+                if (currentPage < totalPages) changePage(currentPage + 1);
             }
             if (touchEndX > touchStartX + swipeThreshold) { 
-                if (currentPage > 1) {
-                    changePage(currentPage - 1);
-                }
+                if (currentPage > 1) changePage(currentPage - 1);
             }
         }
 
-        // --- Start the App ---
         document.addEventListener('DOMContentLoaded', () => {
             checkApiKey();
             updateCardsPerPage();
@@ -1081,14 +1038,8 @@
             render(); 
         });
 
-        dataContainer.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        dataContainer.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipeGesture();
-        });
+        dataContainer.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+        dataContainer.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipeGesture(); });
     </script>
 </body>
 </html>

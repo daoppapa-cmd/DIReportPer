@@ -33,16 +33,9 @@
             font-weight: 700;
         }
 
-        #filterPanel {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(100%);
-        }
-
-        #filterPanel.open {
-            transform: translateX(0);
-        }
+        /* Removed Sidebar transitions */
         
-        #overlay, #modal-container {
+        #modal-container {
             transition: opacity 0.3s ease-in-out;
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
@@ -72,7 +65,7 @@
         }
     </style>
 </head>
-<body class="antialiased text-gray-800 pb-24 md:pb-0"> <!-- Added padding bottom for mobile nav -->
+<body class="antialiased text-gray-800 pb-28 md:pb-0"> <!-- Increased padding bottom -->
 
     <div class="container mx-auto px-3 pt-4 max-w-5xl">
         <!-- Header -->
@@ -84,7 +77,7 @@
             <p class="text-gray-500 text-xs sm:text-sm font-medium">ទិន្នន័យច្បាប់ ឧស្សាហកម្មឌីជីថល</p>
         </header>
 
-        <!-- API Key Input Section (Hidden by default since key is hardcoded) -->
+        <!-- API Key Input Section (Hidden by default) -->
         <div id="apiKeySection" class="hidden bg-white p-5 rounded-xl shadow-sm border border-gray-100 mb-6 max-w-2xl mx-auto">
             <h2 class="font-bold text-lg mb-2 text-gray-800">ការភ្ជាប់ទិន្នន័យ</h2>
             <p class="text-sm text-gray-600 mb-4">សូមបញ្ចូល Google API Key ដើម្បីដំណើរការ។</p>
@@ -110,21 +103,51 @@
                 </nav>
             </div>
 
-            <!-- Control Bar -->
-            <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 mb-4 flex flex-col sm:flex-row justify-between items-center gap-3 sticky top-2 z-30 md:static">
-                <div id="summaryText" class="text-gray-600 text-sm font-medium"></div>
+            <!-- Inline Filter Section (NEW) -->
+            <div id="filter-container" class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4">
+                <div class="flex justify-between items-center mb-3 md:hidden">
+                    <h3 class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/></svg>
+                        តម្រងទិន្នន័យ
+                    </h3>
+                </div>
+                <div class="grid grid-cols-12 gap-3">
+                    <!-- Search -->
+                    <div class="col-span-12 md:col-span-6">
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <input type="text" id="searchInput" placeholder="ស្វែងរកឈ្មោះ ឬ អត្តលេខ..." class="pl-10 w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50 text-sm">
+                        </div>
+                    </div>
+                    <!-- Year -->
+                    <div class="col-span-6 md:col-span-3">
+                        <select id="yearFilter" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50 text-sm"></select>
+                    </div>
+                    <!-- Month -->
+                    <div class="col-span-6 md:col-span-3">
+                        <select id="monthFilter" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50 text-sm"></select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Bar (Summary & Buttons) -->
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mb-4 px-1">
+                <div id="summaryText" class="text-gray-600 text-sm font-medium self-start sm:self-center"></div>
                 
-                <!-- Action Buttons -->
-                <div class="flex items-center gap-2 w-full sm:w-auto justify-end overflow-x-auto pb-1 sm:pb-0 hide-scrollbar">
-                    <!-- Context Aware Buttons -->
-                     <button id="todayButton" title="ទិន្នន័យថ្ងៃនេះ" class="hidden flex-shrink-0 text-gray-500 bg-gray-50 hover:text-indigo-600 p-2.5 rounded-lg hover:bg-indigo-50 transition border border-gray-200">
+                <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                     <button id="todayButton" title="ទិន្នន័យថ្ងៃនេះ" class="hidden flex-shrink-0 text-gray-500 bg-white hover:text-indigo-600 p-2 rounded-lg shadow-sm hover:bg-indigo-50 transition border border-gray-200">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
                             <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                         </svg>
+                        <span class="text-xs ml-1 hidden sm:inline">ថ្ងៃនេះ</span>
                     </button>
                     
-                    <button id="notReturnedButton" title="អ្នកមិនទាន់ចូលមកវិញ" class="hidden flex-shrink-0 text-gray-500 bg-gray-50 hover:text-orange-600 p-2.5 rounded-lg hover:bg-orange-50 transition border border-gray-200 relative">
+                    <button id="notReturnedButton" title="អ្នកមិនទាន់ចូលមកវិញ" class="hidden flex-shrink-0 text-gray-500 bg-white hover:text-orange-600 p-2 rounded-lg shadow-sm hover:bg-orange-50 transition border border-gray-200 relative">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
                             <path d="M4.5 8.246c1.22-.524 2.688-1.246 3.5-1.492V8.5h-1v1h1v1.5a.5.5 0 0 1-1 0V11h-1v1h1v1.5a.5.5 0 0 1-1 0V13h-1v1h1v1h2v-1h1v-1h-1v-1.5a.5.5 0 0 1 1 0V11h1v-1h-1V8.5h1v-1h-1V6c.61.278 2.27.952 3.5 1.5a.5.5 0 0 1 .491.595c-.126.3-.39.54-1.214.773-.822.23-2.1.38-3.286.38-1.186 0-2.464-.15-3.286-.38-.824-.233-1.088-.473-1.214-.773a.5.5 0 0 1 .491-.595"/>
@@ -135,22 +158,17 @@
                         </span>
                     </button>
 
-                    <button id="summaryButton" title="សរុបការឈប់សម្រាក" class="hidden flex-shrink-0 text-gray-500 bg-gray-50 hover:text-green-600 p-2.5 rounded-lg hover:bg-green-50 transition border border-gray-200">
+                    <button id="summaryButton" title="សរុបការឈប់សម្រាក" class="hidden flex-shrink-0 text-gray-500 bg-white hover:text-green-600 p-2 rounded-lg shadow-sm hover:bg-green-50 transition border border-gray-200">
                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h-2V2h2v12zm-3 0V7H7v7h2zm-4 0v-3H2v3h2z"/>
                         </svg>
                     </button>
                     
-                    <!-- Common Buttons -->
-                    <button id="refreshButton" title="ផ្ទុកទិន្នន័យឡើងវិញ" class="flex-shrink-0 text-gray-500 bg-gray-50 hover:text-blue-600 p-2.5 rounded-lg hover:bg-blue-50 transition border border-gray-200">
+                    <button id="refreshButton" title="ផ្ទុកទិន្នន័យឡើងវិញ" class="flex-shrink-0 text-gray-500 bg-white hover:text-blue-600 p-2 rounded-lg shadow-sm hover:bg-blue-50 transition border border-gray-200">
                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
                             <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
                         </svg>
-                    </button>
-                    <button id="filterToggleButton" class="bg-blue-600 text-white px-4 py-2.5 rounded-lg hover:bg-blue-700 transition shadow-sm flex items-center gap-2 text-sm font-medium hidden md:flex">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/></svg>
-                        <span>តម្រង</span>
                     </button>
                 </div>
             </div>
@@ -184,7 +202,7 @@
         
     </div>
 
-    <!-- MOBILE BOTTOM NAVIGATION BAR (NEW) -->
+    <!-- MOBILE BOTTOM NAVIGATION BAR -->
     <div class="fixed bottom-0 left-0 z-40 w-full h-16 bg-white border-t border-gray-200 md:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
         <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
             <button type="button" id="nav-btn-info" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group nav-item-active transition-all duration-200">
@@ -220,42 +238,6 @@
     </div>
 
 
-    <!-- Filter Panel (Updated Style) -->
-    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 z-40 hidden backdrop-blur-sm"></div>
-    <div id="filterPanel" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl p-6 z-50 flex flex-col">
-        <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <h2 class="text-xl font-bold text-gray-800">តម្រងទិន្នន័យ</h2>
-            <button id="closeFilterButton" class="text-gray-400 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
-            </button>
-        </div>
-        <div class="space-y-5 flex-grow">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">ស្វែងរក</label>
-                <input type="text" id="searchInput" placeholder="ឈ្មោះ ឬ អត្តលេខ..." class="p-3 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50">
-            </div>
-            <div>
-                 <label class="block text-sm font-medium text-gray-700 mb-1">ឆ្នាំ</label>
-                 <div class="relative">
-                     <select id="yearFilter" class="p-3 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none bg-gray-50"></select>
-                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                      </div>
-                 </div>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">ខែ</label>
-                <div class="relative">
-                    <select id="monthFilter" class="p-3 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none bg-gray-50"></select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button id="applyFilterBtnMobile" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition mt-4">យល់ព្រម</button>
-    </div>
-
     <!-- Details Modal -->
     <div id="modal-container" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm">
         <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto p-0 relative flex flex-col">
@@ -288,6 +270,9 @@
         const searchInput = document.getElementById('searchInput');
         const summaryText = document.getElementById('summaryText');
         
+        // Filter Container
+        const filterContainer = document.getElementById('filter-container');
+
         // Desktop Tabs
         const tabInfo = document.getElementById('tab-info');
         const tabLeave = document.getElementById('tab-leave');
@@ -299,11 +284,6 @@
         const navBtnCombined = document.getElementById('nav-btn-combined');
         const navBtnFilter = document.getElementById('nav-btn-filter');
 
-        const filterToggleButton = document.getElementById('filterToggleButton');
-        const closeFilterButton = document.getElementById('closeFilterButton');
-        const applyFilterBtnMobile = document.getElementById('applyFilterBtnMobile');
-        const filterPanel = document.getElementById('filterPanel');
-        const overlay = document.getElementById('overlay');
         const monthFilter = document.getElementById('monthFilter');
         const yearFilter = document.getElementById('yearFilter');
         const modalContainer = document.getElementById('modal-container');
@@ -320,7 +300,7 @@
         let profileData = {};
         let currentTab = 'info';
         let currentPage = 1;
-        let cardsPerPage = 4;
+        let cardsPerPage = 14; // កំណត់លំនាំដើមជា 14
         let filterDate = null;
         let touchStartX = 0;
         let touchEndX = 0;
@@ -685,9 +665,9 @@
         }
 
         // --- UI & FILTERS ---
-        function toggleFilterPanel() {
-            filterPanel.classList.toggle('open');
-            overlay.classList.toggle('hidden', !filterPanel.classList.contains('open'));
+        
+        function toggleInlineFilter() {
+             filterContainer.classList.toggle('hidden');
         }
 
         function populateDateFilters() {
@@ -1043,9 +1023,6 @@
             monthFilter.value = now.getMonth() + 1;
             currentPage = 1;
             render();
-            
-            // Mobile UX: Close filter if open
-            if(filterPanel.classList.contains('open')) toggleFilterPanel();
         });
 
         notReturnedButton.addEventListener('click', showNotReturnedModal);
@@ -1059,7 +1036,7 @@
         navBtnInfo.addEventListener('click', () => switchTab('info'));
         navBtnLeave.addEventListener('click', () => switchTab('leave'));
         navBtnCombined.addEventListener('click', () => switchTab('combined'));
-        navBtnFilter.addEventListener('click', toggleFilterPanel);
+        navBtnFilter.addEventListener('click', toggleInlineFilter);
 
         [searchInput, monthFilter, yearFilter].forEach(el => el.addEventListener('input', () => {
              filterDate = null;
@@ -1067,25 +1044,13 @@
              render();
         }));
         
-        filterToggleButton.addEventListener('click', toggleFilterPanel);
-        closeFilterButton.addEventListener('click', toggleFilterPanel);
-        applyFilterBtnMobile.addEventListener('click', toggleFilterPanel);
-
-        overlay.addEventListener('click', () => {
-            if(filterPanel.classList.contains('open')) {
-                toggleFilterPanel();
-            }
-        });
         modalContainer.addEventListener('click', (e) => {
             if (e.target === modalContainer) hideModal();
         });
 
         function updateCardsPerPage() {
-            if (window.innerWidth >= 1024) { 
-                cardsPerPage = 8;
-            } else {
-                cardsPerPage = 4;
-            }
+            // កំណត់ចំនួន Card បង្ហាញក្នុងមួយទំព័រជា 14 គ្រប់ទំហំអេក្រង់
+            cardsPerPage = 14;
         }
 
         function handleSwipeGesture() {

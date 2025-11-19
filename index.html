@@ -11,62 +11,31 @@
     <style>
         body {
             font-family: 'Kantumruy Pro', sans-serif;
-            background-color: #f8fafc; /* Lighter background */
+            background-color: #f8fafc;
             -webkit-tap-highlight-color: transparent;
         }
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
-        .loader, .spinning {
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .tab-active {
-            border-color: #2563eb;
-            color: #2563eb;
-            font-weight: 700;
-        }
+        .loader, .spinning { animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        #modal-container {
-            transition: opacity 0.25s ease-in-out;
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-        }
-
-        .card:active, .action-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Mobile Nav Active State */
-        .nav-item-active {
-            color: #2563eb;
-        }
-        .nav-item-active svg {
-            fill: currentColor;
-            transform: translateY(-2px);
-        }
+        .tab-active { border-color: #2563eb; color: #2563eb; font-weight: 700; }
         
-        #modal-content, .card {
-            animation: slideUpFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
-        }
-
-        @keyframes slideUpFadeIn {
-            from { transform: translateY(15px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        #modal-container { transition: opacity 0.25s ease-in-out; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+        .card:active, .action-btn:active { transform: scale(0.98); }
+        .nav-item-active { color: #2563eb; }
+        .nav-item-active svg { fill: currentColor; transform: translateY(-2px); }
+        
+        #modal-content, .card { animation: slideUpFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        @keyframes slideUpFadeIn { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body class="antialiased text-slate-800 pb-24 md:pb-0">
 
     <div class="container mx-auto px-4 pt-4 max-w-6xl">
-        <!-- Header -->
         <header class="text-center mb-6 flex flex-col items-center">
             <div class="relative">
                  <img src="https://i.postimg.cc/tT0XCH38/di3-copy.png" alt="Logo ក្រុមហ៊ុន" class="h-16 w-auto mb-2 object-contain drop-shadow-sm transform hover:scale-105 transition-transform">
@@ -75,7 +44,6 @@
             <p class="text-slate-500 text-xs sm:text-sm font-medium mt-1">ទិន្នន័យច្បាប់ ឧស្សាហកម្មឌីជីថល</p>
         </header>
 
-        <!-- API Key Input Section (Hidden by default) -->
         <div id="apiKeySection" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6 max-w-xl mx-auto">
             <h2 class="font-bold text-lg mb-2 text-slate-800">ការភ្ជាប់ទិន្នន័យ</h2>
             <p class="text-sm text-slate-500 mb-4">សូមបញ្ចូល Google API Key ដើម្បីដំណើរការ។</p>
@@ -86,24 +54,29 @@
         </div>
 
         <main id="mainContent" class="hidden">
-            <!-- Data Pages Content (Data Grid & Pagination) -->
+            <!-- Data Pages Content -->
             <div id="data-view">
                 <div class="flex justify-between items-center mb-4 px-1">
                     <div id="summaryText" class="text-slate-500 text-sm font-semibold"></div>
-                    <!-- Active Filter Badge -->
-                    <div id="activeFilterBadge" class="hidden bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-blue-100 shadow-sm">
-                        <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                        <span id="filterBadgeText">កំពុងប្រើតម្រង</span>
+                    <!-- Active Filter Badge with Reset Button -->
+                    <div id="activeFilterBadge" class="hidden flex items-center gap-2 animate-fade-in">
+                        <div class="bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-blue-100 shadow-sm">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                            <span id="filterBadgeText">កំពុងប្រើតម្រង</span>
+                        </div>
+                        <button id="resetFilterButton" class="bg-white text-slate-500 p-1.5 rounded-full border border-slate-200 shadow-sm hover:bg-slate-50 hover:text-red-500 transition-colors" title="ត្រឡប់ទៅខែបច្ចុប្បន្ន">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Loading -->
                 <div id="loader" class="flex flex-col items-center justify-center py-16 hidden">
                      <div class="loader w-10 h-10 border-4 border-blue-100 border-t-blue-600 rounded-full mb-4"></div>
                      <p class="text-slate-400 text-sm font-medium animate-pulse">កំពុងទាញទិន្នន័យ...</p>
                 </div>
 
-                <!-- Error -->
                 <div id="errorMessage" class="hidden bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl mb-4 shadow-sm" role="alert">
                     <div class="flex items-start gap-3">
                         <div class="p-2 bg-red-100 rounded-full">
@@ -119,18 +92,15 @@
                     </div>
                 </div>
 
-                <!-- Data Grid -->
                 <div id="data-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
-
-                <!-- Pagination -->
                 <div id="pagination-container" class="mt-8 mb-4 flex justify-center items-center"></div>
             </div>
 
-            <!-- SETTINGS PAGE (Refined UI) -->
+            <!-- SETTINGS PAGE -->
             <div id="settings-page" class="hidden">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6">
                     
-                    <!-- Filters Section (Styled) -->
+                    <!-- Filters Section -->
                     <div class="md:col-span-5 lg:col-span-4">
                         <div class="bg-white p-5 rounded-2xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)] border border-gray-100 h-full flex flex-col">
                             <h3 class="font-bold text-lg mb-5 text-slate-800 flex items-center gap-3 border-b border-slate-100 pb-4">
@@ -173,6 +143,21 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Date Range Filter -->
+                                <div class="border-t border-dashed border-slate-200 pt-4 mt-2">
+                                    <label class="block text-xs font-bold text-slate-400 uppercase mb-3 ml-1">ចន្លោះកាលបរិច្ឆេទ (តាមបំណង)</label>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <input type="date" id="startDateFilter" class="block w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all">
+                                            <p class="text-[10px] text-slate-400 mt-1 ml-1">ចាប់ពីថ្ងៃ</p>
+                                        </div>
+                                        <div>
+                                            <input type="date" id="endDateFilter" class="block w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all">
+                                            <p class="text-[10px] text-slate-400 mt-1 ml-1">ដល់ថ្ងៃ</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="mt-8">
@@ -186,13 +171,13 @@
                         </div>
                     </div>
 
-                    <!-- Actions Section (Grid Menu) -->
+                    <!-- Actions Section -->
                     <div class="md:col-span-7 lg:col-span-8">
                         <div class="bg-white p-5 rounded-2xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)] border border-gray-100 h-full">
                             <h3 class="font-bold text-lg mb-5 text-slate-800 flex items-center gap-3 border-b border-slate-100 pb-4">
                                 <div class="p-2 bg-indigo-50 rounded-lg text-indigo-600 shadow-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                                     </svg>
                                 </div>
                                 ម៉ឺនុយ និង របាយការណ៍
@@ -251,7 +236,6 @@
         
     </div>
 
-    <!-- MOBILE BOTTOM NAVIGATION BAR -->
     <div class="fixed bottom-0 left-0 z-40 w-full h-16 bg-white border-t border-gray-200 md:hidden shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.1)]">
         <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
             <button type="button" id="nav-btn-info" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group nav-item-active transition-all duration-200">
@@ -286,20 +270,16 @@
         </div>
     </div>
 
-
-    <!-- Details Modal -->
     <div id="modal-container" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
         <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto p-0 relative flex flex-col">
-             <!-- Content injected by JS -->
         </div>
     </div>
-
 
     <script>
         // --- CONFIGURATION ---
         const MAIN_SHEET_ID = '1sfpHSLhcojV8QyFjO3x5PPgfPLhaNckwRF0rOv9DDIk';
         const PROFILE_SHEET_ID = '1_Kgl8UQXRsVATt_BOHYQjVWYKkRIBA12R-qnsBoSUzc';
-        let GOOGLE_API_KEY = 'AIzaSyDX3DGMjYiuPlaiCDlk0KCm-0JQVcCwUJY'; // Hardcoded API Key
+        let GOOGLE_API_KEY = 'AIzaSyDX3DGMjYiuPlaiCDlk0KCm-0JQVcCwUJY'; 
 
         const RANGES = {
             info: "'INFO'!A8:O",
@@ -320,11 +300,11 @@
         const summaryText = document.getElementById('summaryText');
         const activeFilterBadge = document.getElementById('activeFilterBadge');
         const filterBadgeText = document.getElementById('filterBadgeText');
+        const resetFilterButton = document.getElementById('resetFilterButton');
         
         const dataView = document.getElementById('data-view');
         const settingsPage = document.getElementById('settings-page');
 
-        // Mobile Nav Buttons
         const navBtnInfo = document.getElementById('nav-btn-info');
         const navBtnLeave = document.getElementById('nav-btn-leave');
         const navBtnCombined = document.getElementById('nav-btn-combined');
@@ -332,6 +312,8 @@
 
         const monthFilter = document.getElementById('monthFilter');
         const yearFilter = document.getElementById('yearFilter');
+        const startDateFilter = document.getElementById('startDateFilter');
+        const endDateFilter = document.getElementById('endDateFilter');
         const applyFilterButton = document.getElementById('applyFilterButton');
         const modalContainer = document.getElementById('modal-container');
         const modalContent = document.getElementById('modal-content');
@@ -344,7 +326,6 @@
         
         const changeApiKeyButton = document.getElementById('changeApiKeyButton');
 
-
         // --- STATE ---
         let allData = { info: [], leave: [], combined: [] };
         let profileData = {};
@@ -354,7 +335,6 @@
         let filterDate = null;
         let touchStartX = 0;
         let touchEndX = 0;
-
 
         // --- UTILITY FUNCTIONS ---
         const toKhmerNumber = (num) => {
@@ -409,6 +389,28 @@
             }
         }
         
+        async function init() {
+            loader.classList.remove('hidden');
+            hideError();
+            dataContainer.innerHTML = '';
+            
+            const [infoRows, leaveRows, profileRows] = await Promise.all([
+                fetchSheetData(MAIN_SHEET_ID, RANGES.info),
+                fetchSheetData(MAIN_SHEET_ID, RANGES.leave),
+                fetchSheetData(PROFILE_SHEET_ID, RANGES.profiles, 'FORMULA')
+            ]);
+
+            if (profileRows) profileData = parseProfileData(profileRows);
+            if (infoRows) allData.info = parseInfoData(infoRows);
+            if (leaveRows) allData.leave = parseLeaveData(leaveRows);
+            
+            combineAndSortData();
+            loader.classList.add('hidden');
+            
+            if(currentTab === 'settings') render(); 
+            else switchTab(currentTab);
+        }
+
         function parseInfoData(rows) {
             return rows.slice().reverse().map(row => ({
                 type: 'info',
@@ -440,7 +442,6 @@
         function parseProfileData(rows) {
             const profileMap = {};
             const imageUrlRegex = /=IMAGE\("([^"]+)"/; 
-
             rows.forEach(row => {
                 if (row && (row[0] !== null && row[0] !== undefined && row[0] !== '')) {
                     const id = String(row[0]); 
@@ -453,7 +454,6 @@
             return profileMap;
         }
 
-        // --- RENDERING ---
         function showError(message) {
             let displayMessage = message;
             let showChangeKeyButton = false;
@@ -476,18 +476,26 @@
             const searchTerm = searchInput.value.toLowerCase();
             const selectedYear = yearFilter.value;
             const selectedMonth = monthFilter.value;
+            
+            const start = startDateFilter.value ? new Date(startDateFilter.value) : null;
+            const end = endDateFilter.value ? new Date(endDateFilter.value) : null;
+            if(start) start.setHours(0,0,0,0);
+            if(end) end.setHours(23,59,59,999);
 
             return dataToFilter.filter(item => {
                 const searchMatch = (item.id.toLowerCase().includes(searchTerm) || item.name.toLowerCase().includes(searchTerm));
-                
                 const itemDateStr = item.dateOut || item.date;
                 if (!itemDateStr) return false;
                 const itemDate = parseDateForSort(itemDateStr);
+                itemDate.setHours(12,0,0,0);
                 
-                let dateMatch;
+                let dateMatch = true;
                 if (filterDate) {
-                    const itemDateFormatted = `${itemDate.getFullYear()}-${String(itemDate.getMonth() + 1).padStart(2, '0')}-${String(itemDate.getDate()).padStart(2, '0')}`;
-                    dateMatch = (itemDateFormatted === filterDate);
+                    const filterD = new Date(filterDate);
+                    filterD.setHours(12,0,0,0);
+                    dateMatch = itemDate.getTime() === filterD.getTime();
+                } else if (start && end) {
+                     dateMatch = itemDate >= start && itemDate <= end;
                 } else {
                     dateMatch = (itemDate.getFullYear() == selectedYear && (itemDate.getMonth() + 1) == selectedMonth);
                 }
@@ -495,30 +503,38 @@
             });
         }
         
+        function resetFilters() {
+            const now = new Date();
+            filterDate = null;
+            searchInput.value = '';
+            startDateFilter.value = '';
+            endDateFilter.value = '';
+            yearFilter.value = now.getFullYear();
+            monthFilter.value = now.getMonth() + 1;
+            currentPage = 1;
+            render();
+        }
+
         function render() {
             hideError();
-            
             if (currentTab === 'settings') {
                 dataView.classList.add('hidden');
                 settingsPage.classList.remove('hidden');
             } else {
                 settingsPage.classList.add('hidden');
                 dataView.classList.remove('hidden');
-                
                 dataContainer.innerHTML = '';
                 const filteredData = getFilteredData();
                 
-                // Show active filter badge if filtering
-                const isFiltering = searchInput.value !== '' || filterDate !== null;
+                const isFiltering = searchInput.value !== '' || filterDate !== null || (startDateFilter.value !== '' && endDateFilter.value !== '');
                 activeFilterBadge.classList.toggle('hidden', !isFiltering);
+                
                 if(filterDate) filterBadgeText.textContent = "តម្រង: ថ្ងៃនេះ";
+                else if (startDateFilter.value && endDateFilter.value) filterBadgeText.textContent = "តម្រង: ចន្លោះថ្ងៃ";
                 else filterBadgeText.textContent = "កំពុងប្រើតម្រង";
 
-                if (currentTab === 'combined') {
-                    renderCombinedView(filteredData);
-                } else {
-                    renderStandardView(filteredData);
-                }
+                if (currentTab === 'combined') renderCombinedView(filteredData);
+                else renderStandardView(filteredData);
             }
             updateMobileNavState(currentTab);
         }
@@ -667,7 +683,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // --- UI & FILTERS ---
         function populateDateFilters() {
             const now = new Date();
             const currentYear = now.getFullYear();
@@ -695,7 +710,6 @@
 
         function switchTab(tabName) {
             currentTab = tabName;
-            // Reset state when switching tabs
             currentPage = 1;
             render();
         }
@@ -729,7 +743,6 @@
             });
         }
 
-        // Helper to check if there are not returned people
         function checkNotReturnedStatus() {
             const now = new Date();
             const notReturnedList = allData.info.filter(item => {
@@ -740,7 +753,6 @@
             notReturnedBadge.classList.toggle('hidden', notReturnedList.length === 0);
         }
         
-        // --- Modal Logic ---
         function showNotReturnedModal() {
             const selectedYear = yearFilter.value;
             const selectedMonth = monthFilter.value;
@@ -782,200 +794,22 @@
             modalContainer.classList.add('flex');
         }
 
-        function showSummaryModal(summaryArray) {
-             // Calculate if not passed, otherwise reuse existing calculation logic
-             if(!summaryArray) {
-                 const data = allData.leave.filter(item => {
-                     const itemDate = parseDateForSort(item.date);
-                     return (itemDate.getFullYear() == yearFilter.value && (itemDate.getMonth() + 1) == monthFilter.value);
-                 });
-                 
-                 const summary = data.reduce((acc, item) => {
-                    if (!acc[item.id]) acc[item.id] = { count: 0, days: 0, name: item.name, id: item.id };
-                    acc[item.id].count++;
-                    const durationStr = item.duration || '';
-                    if (durationStr.includes('ព្រឹក') || durationStr.includes('រសៀល') || durationStr.includes('យប់')) acc[item.id].days += 0.5;
-                    else {
-                        const days = parseFloat(durationStr);
-                        acc[item.id].days += isNaN(days) ? 1 : days;
-                    }
-                    return acc;
-                }, {});
-                summaryArray = Object.values(summary).sort((a,b) => b.days - a.days);
-             }
+        function checkApiKey() {
+            populateDateFilters();
+            const savedKey = localStorage.getItem('googleApiKey');
+            if (savedKey) GOOGLE_API_KEY = savedKey;
 
-            let modalHTML = `
-                <div class="bg-green-50 p-5 border-b border-green-100 flex justify-between items-center rounded-t-2xl">
-                    <h2 class="font-bold text-lg text-green-800">សរុបការឈប់សម្រាកប្រចាំខែ</h2>
-                     <button onclick="hideModal()" class="text-green-400 hover:text-green-600 bg-white rounded-full p-1.5 transition shadow-sm">&times;</button>
-                </div>
-                <div class="p-0 max-h-[70vh] overflow-y-auto">
-                    <table class="w-full text-sm text-left text-slate-600">
-                        <thead class="text-xs text-slate-500 uppercase bg-green-50/50 sticky top-0 shadow-sm">
-                            <tr>
-                                <th scope="col" class="px-5 py-3.5">បុគ្គលិក</th>
-                                <th scope="col" class="px-5 py-3.5 text-center">ដង</th>
-                                <th scope="col" class="px-5 py-3.5 text-center">ថ្ងៃ</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">`;
-            
-            if(summaryArray.length === 0) {
-                modalHTML += `<tr><td colspan="3" class="text-center py-12 text-slate-400">គ្មានទិន្នន័យឈប់សម្រាកក្នុងខែនេះទេ។</td></tr>`;
+            if (GOOGLE_API_KEY) {
+                 apiKeySection.classList.add('hidden');
+                 mainContent.classList.remove('hidden');
+                 init();
             } else {
-                summaryArray.forEach(emp => {
-                     modalHTML += `
-                        <tr class="bg-white hover:bg-slate-50">
-                            <td class="px-5 py-3.5 font-medium text-slate-900">
-                                <div class="flex flex-col">
-                                    <span>${emp.name}</span>
-                                    <span class="text-[10px] text-slate-400 font-mono">${toKhmerNumber(emp.id)}</span>
-                                </div>
-                            </td>
-                            <td class="px-5 py-3.5 text-center font-medium text-slate-600">${toKhmerNumber(emp.count)}</td>
-                            <td class="px-5 py-3.5 text-center font-bold text-green-600">${toKhmerNumber(emp.days)}</td>
-                        </tr>`;
-                });
+                 apiKeySection.classList.remove('hidden');
+                 mainContent.classList.add('hidden');
             }
-            modalHTML += '</tbody></table></div>';
-            modalContent.innerHTML = modalHTML;
-            modalContainer.classList.remove('hidden');
-            modalContainer.classList.add('flex');
         }
 
-        function showModal(item, profile) {
-            const personId = item.id;
-            const selectedYear = yearFilter.value;
-            const selectedMonth = monthFilter.value;
-
-            const allRecordsForPersonThisMonth = allData.combined.filter(record => {
-                if (record.id !== personId) return false;
-                const itemDateStr = record.dateOut || record.date;
-                const itemDate = parseDateForSort(itemDateStr);
-                return (itemDate.getFullYear() == selectedYear && (itemDate.getMonth() + 1) == selectedMonth);
-            });
-
-            const leaveRecords = allRecordsForPersonThisMonth.filter(r => r.type === 'leave');
-            const infoRecords = allRecordsForPersonThisMonth.filter(r => r.type === 'info');
-
-            let totalDays = 0;
-            leaveRecords.forEach(record => {
-                const durationStr = record.duration || '';
-                if (durationStr.includes('ព្រឹក') || durationStr.includes('រសៀល') || durationStr.includes('យប់')) {
-                    totalDays += 0.5;
-                } else {
-                    const days = parseFloat(durationStr);
-                    totalDays += isNaN(days) ? 1 : days;
-                }
-            });
-
-            const placeholderImg = `https://placehold.co/120x120/e2e8f0/64748b?text=${(item.name || '?').charAt(0)}`;
-            let modalHTML = `
-                <div class="relative">
-                    <div class="h-28 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-t-2xl"></div>
-                    <button onclick="hideModal()" class="absolute top-3 right-3 text-white/80 hover:text-white hover:bg-white/20 rounded-full p-1.5 transition">&times;</button>
-                    <div class="absolute top-14 left-1/2 transform -translate-x-1/2">
-                        <img src="${profile.photo || placeholderImg}" onerror="this.onerror=null;this.src='${placeholderImg}';" class="w-24 h-24 rounded-full object-cover border-[4px] border-white shadow-lg bg-white">
-                    </div>
-                </div>
-                
-                <div class="pt-14 pb-6 px-6 text-center">
-                     <h2 class="text-xl font-bold text-slate-800">${item.name}</h2>
-                     <p class="text-slate-500 text-sm font-medium">${profile.department || item.class}</p>
-                     <p class="text-xs text-slate-400 font-mono mt-1">ID: ${toKhmerNumber(item.id)}</p>
-                </div>
-                
-                <div class="px-6 mb-6">
-                    <div class="grid grid-cols-2 gap-3 text-center">
-                        <div class="bg-green-50 p-3.5 rounded-xl border border-green-100">
-                            <p class="font-bold text-2xl text-green-600">${toKhmerNumber(leaveRecords.length)}</p>
-                            <p class="text-xs font-bold text-green-800 uppercase tracking-wide mt-1">ដងឈប់សម្រាក</p>
-                             <span class="text-[10px] bg-white text-green-700 px-2 py-0.5 rounded-md mt-2 inline-block border border-green-100 font-semibold shadow-sm">${toKhmerNumber(totalDays)} ថ្ងៃ</span>
-                        </div>
-                        <div class="bg-blue-50 p-3.5 rounded-xl border border-blue-100">
-                            <p class="font-bold text-2xl text-blue-600">${toKhmerNumber(infoRecords.length)}</p>
-                            <p class="text-xs font-bold text-blue-800 uppercase tracking-wide mt-1">ដងចេញក្រៅ</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="px-6 pb-6 max-h-[40vh] overflow-y-auto space-y-5">`;
-            
-            if (leaveRecords.length > 0) {
-                 modalHTML += `<div><h3 class="font-bold text-slate-700 text-sm mb-3 flex items-center gap-2 uppercase tracking-wide"><span class="w-1.5 h-4 bg-green-500 rounded-full"></span>ប្រវត្តិការឈប់សម្រាក</h3><div class="space-y-2.5">`;
-                 leaveRecords.forEach(record => {
-                     modalHTML += `
-                        <div class="bg-slate-50 p-3 rounded-xl text-sm border border-slate-100">
-                            ${(() => {
-                                const singleDayKeywords = ['មួយព្រឹក', 'មួយរសៀល', 'ពេលយប់', 'មួយថ្ងៃ'];
-                                const isSingleDay = !record.duration || singleDayKeywords.some(keyword => (record.duration || '').includes(keyword));
-                                if (isSingleDay || !record.dateEnd || record.dateEnd.trim() === '') {
-                                    return `<p class="font-semibold text-slate-800 flex justify-between">${toKhmerNumber(record.date)} <span class="text-xs font-normal text-slate-500 bg-white px-1.5 py-0.5 rounded border">(${record.duration})</span></p>`;
-                                } else {
-                                    return `<p class="font-semibold text-slate-800 flex flex-col">${toKhmerNumber(record.date)} - ${toKhmerNumber(record.dateEnd)} <span class="text-xs font-normal text-slate-500 mt-1">(${record.duration})</span></p>`;
-                                }
-                            })()}
-                            <p class="text-xs text-slate-500 mt-1.5 pt-1.5 border-t border-slate-200/60 truncate">មូលហេតុ: ${record.reason || 'N/A'}</p>
-                        </div>`;
-                 });
-                 modalHTML += `</div></div>`;
-            }
-
-            if (infoRecords.length > 0) {
-                 modalHTML += `<div><h3 class="font-bold text-slate-700 text-sm mb-3 flex items-center gap-2 uppercase tracking-wide"><span class="w-1.5 h-4 bg-blue-500 rounded-full"></span>ប្រវត្តិការចេញក្រៅ</h3><div class="space-y-2.5">`;
-                 infoRecords.forEach(record => {
-                    modalHTML += `
-                        <div class="bg-slate-50 p-3 rounded-xl text-sm border border-slate-100">
-                            <div class="flex justify-between items-center mb-1.5">
-                                <p class="font-semibold text-slate-800">${toKhmerNumber(record.dateOut)}</p>
-                                <div class="flex items-center gap-1.5 text-xs text-slate-600">
-                                    <span class="bg-white px-1.5 py-0.5 rounded border text-blue-600 font-medium">${toKhmerNumber(record.timeOut)}</span> &rarr; <span class="bg-white px-1.5 py-0.5 rounded border text-blue-600 font-medium">${toKhmerNumber(record.timeIn)}</span>
-                                </div>
-                            </div>
-                            <p class="text-xs text-slate-500 pt-1.5 border-t border-slate-200/60 truncate">មូលហេតុ: ${record.reason || 'N/A'}</p>
-                        </div>`;
-                 });
-                 modalHTML += `</div></div>`;
-            }
-            
-            if(leaveRecords.length === 0 && infoRecords.length === 0){
-                modalHTML += `<div class="text-center py-6 bg-slate-50 rounded-xl border border-dashed border-slate-200"><p class="text-slate-400 text-sm">គ្មានកំណត់ត្រាលម្អិតសម្រាប់ខែនេះ</p></div>`;
-            }
-            modalHTML += `</div>`;
-            modalContent.innerHTML = modalHTML;
-            modalContainer.classList.remove('hidden');
-            modalContainer.classList.add('flex');
-        }
-
-        function hideModal() {
-            modalContainer.classList.add('hidden');
-            modalContainer.classList.remove('flex');
-        }
-
-        async function init() {
-            loader.classList.remove('hidden');
-            hideError();
-            dataContainer.innerHTML = '';
-            
-            const [infoRows, leaveRows, profileRows] = await Promise.all([
-                fetchSheetData(MAIN_SHEET_ID, RANGES.info),
-                fetchSheetData(MAIN_SHEET_ID, RANGES.leave),
-                fetchSheetData(PROFILE_SHEET_ID, RANGES.profiles, 'FORMULA')
-            ]);
-
-            if (profileRows) profileData = parseProfileData(profileRows);
-            if (infoRows) allData.info = parseInfoData(infoRows);
-            if (leaveRows) allData.leave = parseLeaveData(leaveRows);
-            
-            combineAndSortData();
-            loader.classList.add('hidden');
-            
-            // Always start on info unless manually changed logic added
-            if(currentTab === 'settings') render(); // Keep settings if active
-            else switchTab(currentTab);
-        }
-        
-        // --- API Key Handling ---
+        // --- Event Listeners ---
         saveApiKeyButton.addEventListener('click', () => {
             const key = apiKeyInput.value.trim();
             if (key) {
@@ -997,48 +831,32 @@
             apiKeySection.classList.remove('hidden');
             apiKeyInput.value = '';
         });
-
-        function checkApiKey() {
-            populateDateFilters();
-            const savedKey = localStorage.getItem('googleApiKey');
-            if (savedKey) GOOGLE_API_KEY = savedKey;
-
-            if (GOOGLE_API_KEY) {
-                 apiKeySection.classList.add('hidden');
-                 mainContent.classList.remove('hidden');
-                 init();
-            } else {
-                 apiKeySection.classList.remove('hidden');
-                 mainContent.classList.add('hidden');
-            }
-        }
-
-        // --- Event Listeners ---
+        
         refreshButton.addEventListener('click', async () => {
             const icon = refreshButton.querySelector('svg');
             icon.classList.add('spinning');
             refreshButton.disabled = true;
             await init();
-            setTimeout(() => {
-                icon.classList.remove('spinning');
-                refreshButton.disabled = false;
-            }, 500);
+            setTimeout(() => { icon.classList.remove('spinning'); refreshButton.disabled = false; }, 500);
         });
 
         todayButton.addEventListener('click', () => {
             const now = new Date();
             filterDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-            yearFilter.value = now.getFullYear();
-            monthFilter.value = now.getMonth() + 1;
             
-            // Switch to info tab to see results
+            // Reset others
+            startDateFilter.value = '';
+            endDateFilter.value = '';
+            searchInput.value = '';
+
             switchTab('info');
         });
 
+        resetFilterButton.addEventListener('click', resetFilters);
+
         applyFilterButton.addEventListener('click', () => {
-            // User applied specific filters in Settings page
-            filterDate = null; // Clear exact date filter if any
-            switchTab('info'); // Go to data view
+            filterDate = null;
+            switchTab('info');
         });
 
         notReturnedButton.addEventListener('click', showNotReturnedModal);
@@ -1054,21 +872,14 @@
         });
 
         function updateCardsPerPage() {
-            if (window.innerWidth >= 1024) {
-                cardsPerPage = 14;
-            } else {
-                cardsPerPage = 14; // Default 14
-            }
+            cardsPerPage = window.innerWidth >= 1024 ? 14 : 14;
         }
 
         function handleSwipeGesture() {
-            // Disable swipe on settings page
             if(currentTab === 'settings') return;
-
             const swipeThreshold = 50; 
             const filteredData = getFilteredData();
             const totalPages = Math.ceil(filteredData.length / cardsPerPage);
-
             if (touchEndX < touchStartX - swipeThreshold) { 
                 if (currentPage < totalPages) changePage(currentPage + 1);
             }
@@ -1077,16 +888,13 @@
             }
         }
 
+        // Init
         document.addEventListener('DOMContentLoaded', () => {
             checkApiKey();
             updateCardsPerPage();
         });
 
-        window.addEventListener('resize', () => {
-            updateCardsPerPage();
-            render(); 
-        });
-
+        window.addEventListener('resize', () => { updateCardsPerPage(); render(); });
         dataContainer.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
         dataContainer.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipeGesture(); });
     </script>

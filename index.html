@@ -182,7 +182,9 @@
                         <div class="bg-white p-5 rounded-2xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)] border border-gray-100 h-full flex flex-col">
                             <h3 class="font-bold text-lg mb-5 text-slate-800 flex items-center gap-3 border-b border-slate-100 pb-4">
                                 <div class="p-2 bg-primary-50 rounded-lg text-primary-600 shadow-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                                    </svg>
                                 </div>
                                 តម្រងទិន្នន័យ
                             </h3>
@@ -201,14 +203,18 @@
                                         <label class="block text-xs font-bold text-slate-400 uppercase mb-2 ml-1">ឆ្នាំ</label>
                                         <div class="relative">
                                             <select id="yearFilter" class="block w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 focus:bg-white outline-none appearance-none transition-all"></select>
-                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500"><svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+                                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                            </div>
                                         </div>
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-slate-400 uppercase mb-2 ml-1">ខែ</label>
                                         <div class="relative">
                                             <select id="monthFilter" class="block w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 focus:bg-white outline-none appearance-none transition-all"></select>
-                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500"><svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
+                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+                                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -228,7 +234,9 @@
                             </div>
                             <div class="mt-8">
                                 <button id="applyFilterButton" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-primary-200 active:scale-[0.98] transition-all flex justify-center items-center gap-2 group">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                    </svg>
                                     បង្ហាញទិន្នន័យ
                                 </button>
                             </div>
@@ -241,28 +249,47 @@
                         <div class="bg-white p-5 rounded-2xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)] border border-gray-100">
                             <h3 class="font-bold text-lg mb-5 text-slate-800 flex items-center gap-3 border-b border-slate-100 pb-4">
                                 <div class="p-2 bg-indigo-50 rounded-lg text-indigo-600 shadow-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                    </svg>
                                 </div>
                                 ម៉ឺនុយ និង របាយការណ៍
                             </h3>
                             <div class="grid grid-cols-2 gap-4">
                                 <button id="todayButton" class="group flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-100 transition-all duration-200 active:scale-[0.98] h-auto aspect-[4/3.2]">
-                                    <div class="w-14 h-14 rounded-full bg-indigo-50 flex items-center justify-center mb-3 group-hover:bg-indigo-100 group-hover:scale-110 transition-all duration-300 text-indigo-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>
+                                    <div class="w-14 h-14 rounded-full bg-indigo-50 flex items-center justify-center mb-3 group-hover:bg-indigo-100 group-hover:scale-110 transition-all duration-300 text-indigo-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
                                     <span class="text-sm font-bold text-slate-600 group-hover:text-indigo-700 transition-colors">ទិន្នន័យថ្ងៃនេះ</span>
                                 </button>
                                 <button id="notReturnedButton" class="group flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md hover:border-orange-100 transition-all duration-200 active:scale-[0.98] h-auto aspect-[4/3.2] relative overflow-hidden">
                                      <div class="w-14 h-14 rounded-full bg-orange-50 flex items-center justify-center mb-3 group-hover:bg-orange-100 group-hover:scale-110 transition-all duration-300 text-orange-500 relative">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                        <span id="notReturnedBadge" class="hidden absolute top-0 right-0 flex h-3.5 w-3.5 translate-x-1 -translate-y-1"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500 ring-2 ring-white"></span></span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span id="notReturnedBadge" class="hidden absolute top-0 right-0 flex h-3.5 w-3.5 translate-x-1 -translate-y-1">
+                                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500 ring-2 ring-white"></span>
+                                        </span>
                                     </div>
                                     <span class="text-sm font-bold text-slate-600 group-hover:text-orange-700 transition-colors">មិនទាន់ចូល</span>
                                 </button>
                                 <button id="summaryButton" class="group flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md hover:border-green-100 transition-all duration-200 active:scale-[0.98] h-auto aspect-[4/3.2]">
-                                    <div class="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center mb-3 group-hover:bg-green-100 group-hover:scale-110 transition-all duration-300 text-green-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg></div>
+                                    <div class="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center mb-3 group-hover:bg-green-100 group-hover:scale-110 transition-all duration-300 text-green-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                        </svg>
+                                    </div>
                                     <span class="text-sm font-bold text-slate-600 group-hover:text-green-700 transition-colors">សរុបឈប់សម្រាក</span>
                                 </button>
                                 <button id="refreshButton" class="group flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md hover:border-slate-200 transition-all duration-200 active:scale-[0.98] h-auto aspect-[4/3.2]">
-                                    <div class="w-14 h-14 rounded-full bg-slate-50 flex items-center justify-center mb-3 group-hover:bg-slate-100 transition-all duration-300 text-slate-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 group-hover:rotate-180 transition-transform duration-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg></div>
+                                    <div class="w-14 h-14 rounded-full bg-slate-50 flex items-center justify-center mb-3 group-hover:bg-slate-100 transition-all duration-300 text-slate-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 group-hover:rotate-180 transition-transform duration-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                        </svg>
+                                    </div>
                                     <span class="text-sm font-bold text-slate-600 group-hover:text-slate-800 transition-colors">Refresh</span>
                                 </button>
                             </div>
@@ -272,7 +299,9 @@
                         <div class="bg-white p-5 rounded-2xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)] border border-gray-100">
                             <h3 class="font-bold text-lg mb-5 text-slate-800 flex items-center gap-3 border-b border-slate-100 pb-4">
                                 <div class="p-2 bg-slate-100 rounded-lg text-slate-600 shadow-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                                    </svg>
                                 </div>
                                 ពណ៌កម្មវិធី (Theme)
                             </h3>
@@ -498,6 +527,7 @@
         }
 
         function showSummaryModal(summaryArray) {
+             // Calculate if not passed, otherwise reuse existing calculation logic
              if(!summaryArray) {
                  const data = allData.leave.filter(item => {
                      const itemDate = parseDateForSort(item.date);
@@ -561,7 +591,6 @@
             const personId = item.id;
             const selectedYear = yearFilter.value;
             const selectedMonth = monthFilter.value;
-            
             const start = startDateFilter.value ? new Date(startDateFilter.value) : null;
             const end = endDateFilter.value ? new Date(endDateFilter.value) : null;
             if(start) start.setHours(0,0,0,0);
@@ -570,19 +599,14 @@
             const allRecordsForPersonThisMonth = allData.combined.filter(record => {
                 if (record.id !== personId) return false;
                 const itemDateStr = record.dateOut || record.date;
-                if (!itemDateStr) return false;
                 const itemDate = parseDateForSort(itemDateStr);
                 itemDate.setHours(12,0,0,0);
-
-                if (start && end) {
-                     return itemDate >= start && itemDate <= end;
-                } else if (filterDate) {
+                if (start && end) return itemDate >= start && itemDate <= end;
+                else if (filterDate) {
                      const filterD = new Date(filterDate);
                      filterD.setHours(12,0,0,0);
                      return itemDate.getTime() === filterD.getTime();
-                } else {
-                     return (itemDate.getFullYear() == selectedYear && (itemDate.getMonth() + 1) == selectedMonth);
-                }
+                } else return (itemDate.getFullYear() == selectedYear && (itemDate.getMonth() + 1) == selectedMonth);
             });
 
             const leaveRecords = allRecordsForPersonThisMonth.filter(r => r.type === 'leave');
@@ -595,9 +619,8 @@
             let totalDays = 0;
             leaveRecords.forEach(record => {
                 const durationStr = record.duration || '';
-                if (durationStr.includes('ព្រឹក') || durationStr.includes('រសៀល') || durationStr.includes('យប់')) {
-                    totalDays += 0.5;
-                } else {
+                if (durationStr.includes('ព្រឹក') || durationStr.includes('រសៀល') || durationStr.includes('យប់')) totalDays += 0.5;
+                else {
                     const days = parseFloat(durationStr);
                     totalDays += isNaN(days) ? 1 : days;
                 }
@@ -624,20 +647,24 @@
                 </div>
                 
                 <div class="px-6 mb-6">
-                    <div class="grid grid-cols-2 gap-3 text-center">
-                        <div class="bg-green-50 p-3.5 rounded-xl border border-green-100">
-                            <p class="font-bold text-2xl text-green-600">${toKhmerNumber(leaveRecords.length)}</p>
-                            <p class="text-xs font-bold text-green-800 uppercase tracking-wide mt-1">ដងឈប់សម្រាក</p>
-                             <span class="text-[10px] bg-white text-green-700 px-2 py-0.5 rounded-md mt-2 inline-block border border-green-100 font-semibold shadow-sm">${toKhmerNumber(totalDays)} ថ្ងៃ</span>
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="bg-green-50 p-2 rounded-xl border border-green-100">
+                            <p class="font-bold text-lg text-green-600">${toKhmerNumber(leaveRecords.length)}</p>
+                            <p class="text-[10px] font-bold text-green-800 uppercase tracking-wide mt-0.5">ឈប់សម្រាក</p>
+                             <span class="text-[9px] bg-white text-green-700 px-1.5 py-0.5 rounded-md mt-1 inline-block border border-green-100 font-semibold shadow-sm">${toKhmerNumber(totalDays)} ថ្ងៃ</span>
                         </div>
-                        <div class="bg-blue-50 p-3.5 rounded-xl border border-blue-100">
-                            <p class="font-bold text-2xl text-blue-600">${toKhmerNumber(infoRecords.length)}</p>
-                            <p class="text-xs font-bold text-blue-800 uppercase tracking-wide mt-1">ដងចេញក្រៅ</p>
+                        <div class="bg-blue-50 p-2 rounded-xl border border-blue-100 flex flex-col justify-center">
+                            <p class="font-bold text-lg text-blue-600">${toKhmerNumber(infoRecords.length)}</p>
+                            <p class="text-[10px] font-bold text-blue-800 uppercase tracking-wide mt-0.5">ចេញក្រៅ</p>
+                        </div>
+                         <div class="bg-purple-50 p-2 rounded-xl border border-purple-100 flex flex-col justify-center">
+                            <p class="font-bold text-lg text-purple-600">${toKhmerNumber(homeRecords.length)}</p>
+                            <p class="text-[10px] font-bold text-purple-800 uppercase tracking-wide mt-0.5">ទៅផ្ទះ</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="px-6 pb-6 max-h-[40vh] overflow-y-auto space-y-5">`;
+                <div class="px-6 pb-6 max-h-[40vh] overflow-y-auto space-y-4">`;
             
             if (leaveRecords.length > 0) {
                  modalHTML += `<div><h3 class="font-bold text-slate-700 text-sm mb-3 flex items-center gap-2 uppercase tracking-wide"><span class="w-1.5 h-4 bg-green-500 rounded-full"></span>ប្រវត្តិការឈប់សម្រាក</h3><div class="space-y-2.5">`;
@@ -666,13 +693,42 @@
                  infoRecords.forEach(record => {
                     modalHTML += `
                         <div class="bg-slate-50 p-3 rounded-xl text-sm border border-slate-100">
-                            <div class="flex justify-between items-center mb-1.5">
-                                <p class="font-semibold text-slate-800">${toKhmerNumber(record.dateOut)}</p>
-                                <div class="flex items-center gap-1.5 text-xs text-slate-600">
-                                    <span class="bg-white px-1.5 py-0.5 rounded border text-blue-600 font-medium">${toKhmerNumber(record.timeOut)}</span> &rarr; <span class="bg-white px-1.5 py-0.5 rounded border text-blue-600 font-medium">${toKhmerNumber(record.timeIn)}</span>
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <p class="font-semibold text-slate-800 text-base">${toKhmerNumber(record.dateOut)}</p>
+                                    <div class="flex items-center gap-1.5 text-xs text-slate-600 mt-1">
+                                        <span class="bg-white px-1.5 py-0.5 rounded border text-blue-600 font-medium">${toKhmerNumber(record.timeOut)}</span> &rarr; <span class="bg-white px-1.5 py-0.5 rounded border text-blue-600 font-medium">${toKhmerNumber(record.timeIn)}</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                     <span class="text-[10px] text-slate-400 mb-0.5">រយៈពេល</span>
+                                     <span class="text-xs font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">${toKhmerNumber(record.duration) || 'N/A'}</span>
                                 </div>
                             </div>
-                            <p class="text-xs text-slate-500 pt-1.5 border-t border-slate-200/60 truncate">មូលហេតុ: ${record.reason || 'N/A'}</p>
+                            <p class="text-xs text-slate-500 pt-1.5 border-t border-slate-200/60 truncate"><span class="font-bold text-slate-600 mr-1">មូលហេតុ:</span> ${record.reason || 'N/A'}</p>
+                        </div>`;
+                 });
+                 modalHTML += `</div></div>`;
+            }
+
+            if (homeRecords.length > 0) {
+                 modalHTML += `<div><h3 class="font-bold text-slate-700 text-sm mb-3 flex items-center gap-2 uppercase tracking-wide"><span class="w-1.5 h-4 bg-purple-500 rounded-full"></span>ប្រវត្តិការទៅផ្ទះ</h3><div class="space-y-2.5">`;
+                 homeRecords.forEach(record => {
+                    modalHTML += `
+                        <div class="bg-slate-50 p-3 rounded-xl text-sm border border-slate-100">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <p class="font-semibold text-slate-800 text-base">${toKhmerNumber(record.dateOut)}</p>
+                                    <div class="flex items-center gap-1.5 text-xs text-slate-600 mt-1">
+                                        <span class="bg-white px-1.5 py-0.5 rounded border text-purple-600 font-medium">${toKhmerNumber(record.timeOut)}</span> &rarr; <span class="bg-white px-1.5 py-0.5 rounded border text-purple-600 font-medium">${toKhmerNumber(record.timeIn)}</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                     <span class="text-[10px] text-slate-400 mb-0.5">រយៈពេល</span>
+                                     <span class="text-xs font-bold bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">${toKhmerNumber(record.duration) || 'N/A'}</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-500 pt-1.5 border-t border-slate-200/60 truncate"><span class="font-bold text-slate-600 mr-1">មូលហេតុ:</span> ${record.reason || 'N/A'}</p>
                         </div>`;
                  });
                  modalHTML += `</div></div>`;
@@ -690,7 +746,6 @@
         window.showModal = showModal;
         
         // --- API & DATA HANDLING ---
-        
         async function fetchSheetData(spreadsheetId, range, valueRenderOption = 'FORMATTED_VALUE') {
             if (!GOOGLE_API_KEY) {
                 showError("សូមបញ្ចូល API Key ជាមុនសិន។");
@@ -717,7 +772,6 @@
             loader.classList.remove('hidden');
             hideError();
             dataContainer.innerHTML = '';
-            
             const [infoRows, leaveRows, homeRows, profileRows] = await Promise.all([
                 fetchSheetData(MAIN_SHEET_ID, RANGES.info),
                 fetchSheetData(MAIN_SHEET_ID, RANGES.leave),
@@ -733,15 +787,13 @@
             combineAndSortData();
             loader.classList.add('hidden');
             
-            // Set initial theme if stored
             const savedTheme = localStorage.getItem('appTheme');
             if(savedTheme) setTheme(savedTheme);
             else renderThemeSelector('blue');
 
-            if(currentTab === 'settings') render(); 
-            else switchTab(currentTab);
+            if(currentTab === 'settings') render(); else switchTab(currentTab);
         }
-
+        
         function parseInfoData(rows) {
             return rows.slice().reverse().map(row => ({
                 type: 'info',
@@ -768,7 +820,7 @@
             return rows.slice().reverse().map(row => {
                 const homeId = String(row[6] || '').trim(); // Col H from Home
                 
-                // NEW CONDITION: If homeId is empty or "មិនមាន", skip
+                // NEW CHECK ADDED HERE
                 if (!homeId || homeId === 'មិនមាន') return null;
 
                 // Filter Logic
@@ -795,7 +847,6 @@
         }
 
         function combineAndSortData() {
-            // Updated combine logic to include 'home'
             const combined = [...allData.info, ...allData.leave, ...allData.home];
             allData.combined = combined.sort((a, b) => b.sortDate - a.sortDate);
             checkNotReturnedStatus();
@@ -943,37 +994,16 @@
                     const placeholderImg = `https://placehold.co/80x80/e2e8f0/64748b?text=${(item.name || '?').charAt(0)}`;
                     const card = document.createElement('div');
                     
-                    let isInfo = item.type === 'info';
-                    let isHome = item.type === 'home';
-                    let borderColor, nameColor, badgeBg, imageBorder;
-
-                    if (isHome) {
-                        borderColor = 'border-purple-100';
-                        nameColor = 'text-purple-700';
-                        badgeBg = 'bg-purple-100 text-purple-700';
-                        imageBorder = 'border-purple-200';
-                    } else if (isInfo) {
-                        borderColor = 'border-blue-100';
-                        nameColor = 'text-blue-700';
-                        badgeBg = 'bg-blue-100 text-blue-700';
-                        imageBorder = 'border-blue-200';
-                    } else {
-                        borderColor = 'border-green-100';
-                        nameColor = 'text-green-700';
-                        badgeBg = 'bg-green-100 text-green-700';
-                        imageBorder = 'border-green-200';
-                    }
+                    const isInfo = item.type === 'info';
+                    const borderColor = isInfo ? 'border-blue-100' : 'border-green-100';
+                    const nameColor = isInfo ? 'text-blue-700' : 'text-green-700';
+                    const badgeBg = isInfo ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700';
+                    const imageBorder = isInfo ? 'border-blue-200' : 'border-green-200';
 
                     card.className = `card bg-white p-4 rounded-2xl shadow-sm border ${borderColor} flex flex-row gap-4 cursor-pointer hover:shadow-md transition-all duration-200 h-full items-start`;
                     card.style.animationDelay = `${index * 0.03}s`;
-                    
                     // DISABLED CLICK FOR STANDARD VIEW
-                    if (currentTab === 'combined') {
-                        card.onclick = () => showModal(item, profile);
-                    } else {
-                        card.onclick = null; 
-                        card.classList.remove('cursor-pointer', 'hover:shadow-md'); // Remove pointer & hover for non-clickable
-                    }
+                    // card.onclick = () => showModal(item, profile);
 
                     let contentHTML = `
                         <div class="flex-shrink-0">
@@ -992,11 +1022,10 @@
                                 <p class="mb-1 truncate"><span class="text-slate-400">មូលហេតុ:</span> ${item.reason || 'N/A'}</p>
                     `;
 
-                    if (isInfo || isHome) {
-                        let timeColor = isHome ? 'text-purple-600' : 'text-blue-600';
+                    if (isInfo) {
                         contentHTML += `
                                 <div class="flex justify-between text-xs text-slate-500 font-medium">
-                                    <span>ចេញ: ${toKhmerNumber(item.dateOut)} <span class="${timeColor}">${toKhmerNumber(item.timeOut)}</span></span>
+                                    <span>ចេញ: ${toKhmerNumber(item.dateOut)} <span class="text-blue-600">${toKhmerNumber(item.timeOut)}</span></span>
                                 </div>
                             </div>
                         </div>`;
@@ -1094,7 +1123,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // --- UI & FILTERS ---
         function populateDateFilters() {
             const now = new Date();
             const currentYear = now.getFullYear();
@@ -1122,7 +1150,6 @@
 
         function switchTab(tabName) {
             currentTab = tabName;
-            // Reset state when switching tabs
             currentPage = 1;
             render();
         }
@@ -1155,12 +1182,10 @@
                 { btn: navBtnCombined, name: 'combined' },
                 { btn: navBtnSettings, name: 'settings' }
             ];
-
             navButtons.forEach(item => {
                 const isActive = item.name === tabName;
                 const svg = item.btn.querySelector('svg');
                 const text = item.btn.querySelector('span');
-                
                 if (isActive) {
                     item.btn.classList.add('nav-item-active');
                     svg.classList.remove('text-slate-400');
@@ -1177,7 +1202,6 @@
             });
         }
 
-        // Helper to check if there are not returned people
         function checkNotReturnedStatus() {
             const now = new Date();
             const notReturnedList = allData.info.filter(item => {
@@ -1188,12 +1212,10 @@
             notReturnedBadge.classList.toggle('hidden', notReturnedList.length === 0);
         }
         
-        // --- Modal Logic ---
         function checkApiKey() {
             populateDateFilters();
             const savedKey = localStorage.getItem('googleApiKey');
             if (savedKey) GOOGLE_API_KEY = savedKey;
-
             if (GOOGLE_API_KEY) {
                  apiKeySection.classList.add('hidden');
                  mainContent.classList.remove('hidden');
@@ -1204,7 +1226,6 @@
             }
         }
 
-        // --- Event Listeners ---
         saveApiKeyButton.addEventListener('click', () => {
             const key = apiKeyInput.value.trim();
             if (key) {
@@ -1281,7 +1302,6 @@
             const swipeThreshold = 50; 
             const filteredData = getFilteredData();
             const totalPages = Math.ceil(filteredData.length / cardsPerPage);
-
             if (touchEndX < touchStartX - swipeThreshold) { 
                 if (currentPage < totalPages) changePage(currentPage + 1);
             }

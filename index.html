@@ -77,7 +77,6 @@
 
         #modal-container { transition: opacity 0.25s ease-in-out; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
         .card:active, .action-btn:active { transform: scale(0.98); }
-        
         .nav-item-active { color: rgb(var(--color-primary-600)); }
         .nav-item-active svg { fill: currentColor; transform: translateY(-2px); }
         
@@ -110,17 +109,20 @@
         <main id="mainContent" class="hidden">
             <!-- Desktop Tabs -->
             <div class="hidden md:block mb-8">
-                <nav class="flex space-x-1 bg-white p-1 rounded-xl shadow-sm border border-gray-100 max-w-3xl mx-auto" aria-label="Tabs">
-                    <button id="tab-info" class="tab-btn flex-1 py-2.5 px-4 rounded-lg text-sm font-medium text-slate-500 hover:text-primary-600 hover:bg-primary-50 transition-all">
+                <nav class="flex space-x-1 bg-white p-1 rounded-xl shadow-sm border border-gray-100 max-w-4xl mx-auto overflow-x-auto" aria-label="Tabs">
+                    <button id="tab-info" class="tab-btn flex-1 py-2.5 px-4 rounded-lg text-sm font-medium text-slate-500 hover:text-primary-600 hover:bg-primary-50 transition-all whitespace-nowrap">
                         ច្បាប់ចេញក្រៅ
                     </button>
-                    <button id="tab-leave" class="tab-btn flex-1 py-2.5 px-4 rounded-lg text-sm font-medium text-slate-500 hover:text-primary-600 hover:bg-primary-50 transition-all">
+                    <button id="tab-leave" class="tab-btn flex-1 py-2.5 px-4 rounded-lg text-sm font-medium text-slate-500 hover:text-primary-600 hover:bg-primary-50 transition-all whitespace-nowrap">
                         ច្បាប់ឈប់សម្រាក
                     </button>
-                     <button id="tab-combined" class="tab-btn flex-1 py-2.5 px-4 rounded-lg text-sm font-medium text-slate-500 hover:text-primary-600 hover:bg-primary-50 transition-all">
+                    <button id="tab-home" class="tab-btn flex-1 py-2.5 px-4 rounded-lg text-sm font-medium text-slate-500 hover:text-primary-600 hover:bg-primary-50 transition-all whitespace-nowrap">
+                        ច្បាប់ទៅផ្ទះ
+                    </button>
+                     <button id="tab-combined" class="tab-btn flex-1 py-2.5 px-4 rounded-lg text-sm font-medium text-slate-500 hover:text-primary-600 hover:bg-primary-50 transition-all whitespace-nowrap">
                         ច្បាប់រួម
                     </button>
-                    <button id="tab-settings" class="tab-btn flex-1 py-2.5 px-4 rounded-lg text-sm font-medium text-slate-500 hover:text-primary-600 hover:bg-primary-50 transition-all flex items-center justify-center gap-2">
+                    <button id="tab-settings" class="tab-btn flex-1 py-2.5 px-4 rounded-lg text-sm font-medium text-slate-500 hover:text-primary-600 hover:bg-primary-50 transition-all flex items-center justify-center gap-2 whitespace-nowrap">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M14.2 2.15a4.5 4.5 0 0 0-4.5-4.5c-1.86 0-3.05 1.17-3.48 2.35-.23.64-.04 1.35.47 1.85l1.5 1.5 2.4-2.4-1.68-1.67a.25.25 0 0 1 .35-.36l2.35 2.35c.46.46 1.2.46 1.66 0 .22-.22.33-.51.33-.8a4.5 4.5 0 0 0-1.39-3.2z"/>
                             <path d="M10.07 7.37L8.5 5.8 6.63 7.68a3 3 0 0 0-.84 1.75L5.6 11.6a.5.5 0 0 1-.12.27l-3.9 3.9a.5.5 0 0 0 .7.7l3.9-3.9a.5.5 0 0 1 .28-.12l2.17-.18a3 3 0 0 0 1.74-.85l1.88-1.88a.5.5 0 0 0 0-.7z"/>
@@ -134,13 +136,16 @@
             <div id="data-view">
                 <div class="flex justify-between items-center mb-4 px-1">
                     <div id="summaryText" class="text-slate-500 text-sm font-semibold"></div>
+                    <!-- Active Filter Badge with Reset Button -->
                     <div id="activeFilterBadge" class="hidden flex items-center gap-2 animate-fade-in">
                         <div class="bg-primary-50 text-primary-600 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-primary-100 shadow-sm">
                             <span class="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></span>
                             <span id="filterBadgeText">កំពុងប្រើតម្រង</span>
                         </div>
                         <button id="resetFilterButton" class="bg-white text-slate-500 p-1.5 rounded-full border border-slate-200 shadow-sm hover:bg-slate-50 hover:text-red-500 transition-colors" title="ត្រឡប់ទៅខែបច្ចុប្បន្ន">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -283,21 +288,28 @@
     </div>
 
     <div class="fixed bottom-0 left-0 z-40 w-full h-16 bg-white border-t border-gray-200 md:hidden shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.1)]">
-        <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
-            <button type="button" id="nav-btn-info" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group nav-item-active transition-all duration-200">
+        <div class="grid h-full max-w-lg grid-cols-5 mx-auto font-medium">
+            <button type="button" id="nav-btn-info" class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group nav-item-active transition-all duration-200">
                 <svg class="w-6 h-6 mb-1 text-slate-400 group-hover:text-primary-600 transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M11.5 8a.5.5 0 0 0-.5.5V11h-2V8.5a.5.5 0 0 0-1 0V11H6V8.5a.5.5 0 0 0-1 0V11H3V5.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5V8a.5.5 0 0 0 .5.5m-7 0a.5.5 0 0 0 0 1H6a.5.5 0 0 0 0-1z"/><path d="M3 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm6 1.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0 0 1h1a.5.5 0 0 0 .5-.5M12.146 5.146a.5.5 0 0 0-.708-.708L11 4.793l-.438-.439a.5.5 0 0 0-.708.708l.792.793z"/></svg>
                 <span class="text-[10px] font-medium text-slate-500 group-hover:text-primary-600 transition-colors duration-200">ចេញក្រៅ</span>
             </button>
-            <button type="button" id="nav-btn-leave" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group transition-all duration-200">
+            <button type="button" id="nav-btn-leave" class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group transition-all duration-200">
                 <svg class="w-6 h-6 mb-1 text-slate-400 group-hover:text-primary-600 transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M10 7v1h3v3.255l-1.12 1.12a.5.5 0 0 0-.13.325v.52a.5.5 0 0 0 .128.326l.72.72a.5.5 0 0 0 .706 0l.72-.72a.5.5 0 0 0 .128-.326v-.52a.5.5 0 0 0-.13-.325L14 11.255V8a1 1 0 0 0-1-1z"/><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/></svg>
                 <span class="text-[10px] font-medium text-slate-500 group-hover:text-primary-600 transition-colors duration-200">ឈប់សម្រាក</span>
             </button>
-            <button type="button" id="nav-btn-combined" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group transition-all duration-200">
+            <button type="button" id="nav-btn-home" class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group transition-all duration-200">
+                <svg class="w-6 h-6 mb-1 text-slate-400 group-hover:text-primary-600 transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z"/>
+                    <path d="m8 3.293 6 6V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V9.293l6-6Z"/>
+                </svg>
+                <span class="text-[10px] font-medium text-slate-500 group-hover:text-primary-600 transition-colors duration-200">ទៅផ្ទះ</span>
+            </button>
+            <button type="button" id="nav-btn-combined" class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group transition-all duration-200">
                 <svg class="w-6 h-6 mb-1 text-slate-400 group-hover:text-primary-600 transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/></svg>
                 <span class="text-[10px] font-medium text-slate-500 group-hover:text-primary-600 transition-colors duration-200">ច្បាប់រួម</span>
             </button>
 
-             <button type="button" id="nav-btn-settings" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group transition-all duration-200">
+             <button type="button" id="nav-btn-settings" class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group transition-all duration-200">
                  <!-- Paintbrush Icon -->
                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="w-6 h-6 mb-1 text-slate-400 group-hover:text-primary-600 transition-colors duration-200" viewBox="0 0 16 16">
                     <path d="M14.2 2.15a4.5 4.5 0 0 0-4.5-4.5c-1.86 0-3.05 1.17-3.48 2.35-.23.64-.04 1.35.47 1.85l1.5 1.5 2.4-2.4-1.68-1.67a.25.25 0 0 1 .35-.36l2.35 2.35c.46.46 1.2.46 1.66 0 .22-.22.33-.51.33-.8a4.5 4.5 0 0 0-1.39-3.2z"/>
@@ -316,13 +328,15 @@
     <script>
         // --- CONFIGURATION ---
         const MAIN_SHEET_ID = '1sfpHSLhcojV8QyFjO3x5PPgfPLhaNckwRF0rOv9DDIk';
+        const HOME_SHEET_ID = '1qaPPrvbU7TW5OPeb_U3kxWffE26Ob7vK4Z9tkc8HlZ8';
         const PROFILE_SHEET_ID = '1_Kgl8UQXRsVATt_BOHYQjVWYKkRIBA12R-qnsBoSUzc';
-        let GOOGLE_API_KEY = 'AIzaSyDX3DGMjYiuPlaiCDlk0KCm-0JQVcCwUJY'; // Hardcoded API Key
+        let GOOGLE_API_KEY = 'AIzaSyDX3DGMjYiuPlaiCDlk0KCm-0JQVcCwUJY';
 
         const RANGES = { 
             info: "'INFO'!A8:O", 
             leave: "'ច្បាប់សម្រាក'!A2:K", 
-            profiles: "'បញ្ជឺឈ្មោះរួម'!E9:W" // Ensure this matches your sheet structure
+            home: "'ច្បាប់ទៅផ្ទះ'!B564:Q",
+            profiles: "'បញ្ជឺឈ្មោះរួម'!E9:W" 
         };
         
         // --- THEME CONFIG ---
@@ -355,10 +369,12 @@
         const settingsPage = document.getElementById('settings-page');
         const tabInfo = document.getElementById('tab-info');
         const tabLeave = document.getElementById('tab-leave');
+        const tabHome = document.getElementById('tab-home');
         const tabCombined = document.getElementById('tab-combined');
         const tabSettings = document.getElementById('tab-settings');
         const navBtnInfo = document.getElementById('nav-btn-info');
         const navBtnLeave = document.getElementById('nav-btn-leave');
+        const navBtnHome = document.getElementById('nav-btn-home');
         const navBtnCombined = document.getElementById('nav-btn-combined');
         const navBtnSettings = document.getElementById('nav-btn-settings');
         const monthFilter = document.getElementById('monthFilter');
@@ -375,7 +391,7 @@
         const todayButton = document.getElementById('todayButton');
         const changeApiKeyButton = document.getElementById('changeApiKeyButton');
 
-        let allData = { info: [], leave: [], combined: [] };
+        let allData = { info: [], leave: [], home: [], combined: [] };
         let profileData = {};
         let currentTab = 'info';
         let currentPage = 1;
@@ -383,7 +399,8 @@
         let filterDate = null;
         let touchStartX = 0;
         let touchEndX = 0;
-        
+        let homeVerificationMap = {}; // Store Home Verification Data
+
         // --- FUNCTIONS START ---
 
         function setTheme(themeName) {
@@ -451,7 +468,7 @@
             let modalHTML = `
                 <div class="bg-orange-50 p-5 border-b border-orange-100 flex justify-between items-center rounded-t-2xl">
                     <h2 class="font-bold text-lg text-orange-800">អ្នកមិនទាន់ចូលមកវិញ (${toKhmerNumber(notReturnedList.length)})</h2>
-                     <button onclick="hideModal()" class="text-orange-400 hover:text-orange-600 bg-white rounded-full p-1.5 transition shadow-sm">&times;</button>
+                     <button class="modal-close-btn text-orange-400 hover:text-orange-600 bg-white rounded-full p-1.5 transition shadow-sm">&times;</button>
                 </div>
                 <div class="p-4 max-h-[70vh] overflow-y-auto space-y-3">`;
 
@@ -504,7 +521,7 @@
             let modalHTML = `
                 <div class="bg-green-50 p-5 border-b border-green-100 flex justify-between items-center rounded-t-2xl">
                     <h2 class="font-bold text-lg text-green-800">សរុបការឈប់សម្រាកប្រចាំខែ</h2>
-                     <button onclick="hideModal()" class="text-green-400 hover:text-green-600 bg-white rounded-full p-1.5 transition shadow-sm">&times;</button>
+                     <button class="modal-close-btn text-green-400 hover:text-green-600 bg-white rounded-full p-1.5 transition shadow-sm">&times;</button>
                 </div>
                 <div class="p-0 max-h-[70vh] overflow-y-auto">
                     <table class="w-full text-sm text-left text-slate-600">
@@ -544,6 +561,7 @@
             const personId = item.id;
             const selectedYear = yearFilter.value;
             const selectedMonth = monthFilter.value;
+            
             const start = startDateFilter.value ? new Date(startDateFilter.value) : null;
             const end = endDateFilter.value ? new Date(endDateFilter.value) : null;
             if(start) start.setHours(0,0,0,0);
@@ -552,24 +570,34 @@
             const allRecordsForPersonThisMonth = allData.combined.filter(record => {
                 if (record.id !== personId) return false;
                 const itemDateStr = record.dateOut || record.date;
+                if (!itemDateStr) return false;
                 const itemDate = parseDateForSort(itemDateStr);
                 itemDate.setHours(12,0,0,0);
-                if (start && end) return itemDate >= start && itemDate <= end;
-                else if (filterDate) {
+
+                if (start && end) {
+                     return itemDate >= start && itemDate <= end;
+                } else if (filterDate) {
                      const filterD = new Date(filterDate);
                      filterD.setHours(12,0,0,0);
                      return itemDate.getTime() === filterD.getTime();
-                } else return (itemDate.getFullYear() == selectedYear && (itemDate.getMonth() + 1) == selectedMonth);
+                } else {
+                     return (itemDate.getFullYear() == selectedYear && (itemDate.getMonth() + 1) == selectedMonth);
+                }
             });
 
             const leaveRecords = allRecordsForPersonThisMonth.filter(r => r.type === 'leave');
             const infoRecords = allRecordsForPersonThisMonth.filter(r => r.type === 'info');
+            const homeRecords = allData.home.filter(r => r.id === personId && 
+                ((start && end) ? (parseDateForSort(r.dateOut) >= start && parseDateForSort(r.dateOut) <= end) :
+                (filterDate ? parseDateForSort(r.dateOut).getTime() === new Date(filterDate).getTime() :
+                (parseDateForSort(r.dateOut).getFullYear() == selectedYear && (parseDateForSort(r.dateOut).getMonth() + 1) == selectedMonth))));
 
             let totalDays = 0;
             leaveRecords.forEach(record => {
                 const durationStr = record.duration || '';
-                if (durationStr.includes('ព្រឹក') || durationStr.includes('រសៀល') || durationStr.includes('យប់')) totalDays += 0.5;
-                else {
+                if (durationStr.includes('ព្រឹក') || durationStr.includes('រសៀល') || durationStr.includes('យប់')) {
+                    totalDays += 0.5;
+                } else {
                     const days = parseFloat(durationStr);
                     totalDays += isNaN(days) ? 1 : days;
                 }
@@ -579,7 +607,7 @@
             let modalHTML = `
                 <div class="relative">
                     <div class="h-28 bg-gradient-to-r from-primary-600 to-primary-500 rounded-t-2xl"></div>
-                    <button onclick="hideModal()" class="absolute top-3 right-3 text-white/80 hover:text-white hover:bg-white/20 rounded-full p-1.5 transition">&times;</button>
+                    <button class="modal-close-btn absolute top-3 right-3 text-white/80 hover:text-white hover:bg-white/20 rounded-full p-1.5 transition">&times;</button>
                     <div class="absolute top-14 left-1/2 transform -translate-x-1/2">
                         <img src="${profile.photo || placeholderImg}" onerror="this.onerror=null;this.src='${placeholderImg}';" class="w-24 h-24 rounded-full object-cover border-[4px] border-white shadow-lg bg-white">
                     </div>
@@ -609,7 +637,7 @@
                     </div>
                 </div>
 
-                <div class="px-6 pb-6 max-h-[40vh] overflow-y-auto space-y-4">`;
+                <div class="px-6 pb-6 max-h-[40vh] overflow-y-auto space-y-5">`;
             
             if (leaveRecords.length > 0) {
                  modalHTML += `<div><h3 class="font-bold text-slate-700 text-sm mb-3 flex items-center gap-2 uppercase tracking-wide"><span class="w-1.5 h-4 bg-green-500 rounded-full"></span>ប្រវត្តិការឈប់សម្រាក</h3><div class="space-y-2.5">`;
@@ -638,25 +666,19 @@
                  infoRecords.forEach(record => {
                     modalHTML += `
                         <div class="bg-slate-50 p-3 rounded-xl text-sm border border-slate-100">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <p class="font-semibold text-slate-800 text-base">${toKhmerNumber(record.dateOut)}</p>
-                                    <div class="flex items-center gap-1.5 text-xs text-slate-600 mt-1">
-                                        <span class="bg-white px-1.5 py-0.5 rounded border text-blue-600 font-medium">${toKhmerNumber(record.timeOut)}</span> &rarr; <span class="bg-white px-1.5 py-0.5 rounded border text-blue-600 font-medium">${toKhmerNumber(record.timeIn)}</span>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col items-end">
-                                     <span class="text-[10px] text-slate-400 mb-0.5">រយៈពេល</span>
-                                     <span class="text-xs font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">${toKhmerNumber(record.duration) || 'N/A'}</span>
+                            <div class="flex justify-between items-center mb-1.5">
+                                <p class="font-semibold text-slate-800">${toKhmerNumber(record.dateOut)}</p>
+                                <div class="flex items-center gap-1.5 text-xs text-slate-600">
+                                    <span class="bg-white px-1.5 py-0.5 rounded border text-blue-600 font-medium">${toKhmerNumber(record.timeOut)}</span> &rarr; <span class="bg-white px-1.5 py-0.5 rounded border text-blue-600 font-medium">${toKhmerNumber(record.timeIn)}</span>
                                 </div>
                             </div>
-                            <p class="text-xs text-slate-500 pt-1.5 border-t border-slate-200/60 truncate"><span class="font-bold text-slate-600 mr-1">មូលហេតុ:</span> ${record.reason || 'N/A'}</p>
+                            <p class="text-xs text-slate-500 pt-1.5 border-t border-slate-200/60 truncate">មូលហេតុ: ${record.reason || 'N/A'}</p>
                         </div>`;
                  });
                  modalHTML += `</div></div>`;
             }
             
-            if(leaveRecords.length === 0 && infoRecords.length === 0){
+            if(leaveRecords.length === 0 && infoRecords.length === 0 && homeRecords.length === 0){
                 modalHTML += `<div class="text-center py-6 bg-slate-50 rounded-xl border border-dashed border-slate-200"><p class="text-slate-400 text-sm">គ្មានកំណត់ត្រាលម្អិតសម្រាប់ខែនេះ</p></div>`;
             }
             modalHTML += `</div>`;
@@ -665,6 +687,10 @@
             modalContainer.classList.add('flex');
         }
 
+        window.showModal = showModal;
+        
+        // --- API & DATA HANDLING ---
+        
         async function fetchSheetData(spreadsheetId, range, valueRenderOption = 'FORMATTED_VALUE') {
             if (!GOOGLE_API_KEY) {
                 showError("សូមបញ្ចូល API Key ជាមុនសិន។");
@@ -692,19 +718,22 @@
             hideError();
             dataContainer.innerHTML = '';
             
-            const [infoRows, leaveRows, profileRows] = await Promise.all([
+            const [infoRows, leaveRows, homeRows, profileRows] = await Promise.all([
                 fetchSheetData(MAIN_SHEET_ID, RANGES.info),
                 fetchSheetData(MAIN_SHEET_ID, RANGES.leave),
+                fetchSheetData(HOME_SHEET_ID, RANGES.home),
                 fetchSheetData(PROFILE_SHEET_ID, RANGES.profiles, 'FORMULA')
             ]);
 
             if (profileRows) profileData = parseProfileData(profileRows);
             if (infoRows) allData.info = parseInfoData(infoRows);
             if (leaveRows) allData.leave = parseLeaveData(leaveRows);
+            if (homeRows) allData.home = parseHomeData(homeRows);
             
             combineAndSortData();
             loader.classList.add('hidden');
             
+            // Set initial theme if stored
             const savedTheme = localStorage.getItem('appTheme');
             if(savedTheme) setTheme(savedTheme);
             else renderThemeSelector('blue');
@@ -735,27 +764,79 @@
             })).filter(item => item.name);
         }
 
+        function parseHomeData(rows) {
+            return rows.slice().reverse().map(row => {
+                const homeId = String(row[6] || '').trim(); // Col H from Home
+                
+                // NEW CONDITION: If homeId is empty or "មិនមាន", skip
+                if (!homeId || homeId === 'មិនមាន') return null;
+
+                // Filter Logic
+                const verification = homeVerificationMap[homeId];
+                if (!verification) return null; // If no ID match, don't show
+                if (verification.status === 'NO') return null; // If ID matches but Status is NO, don't show
+                
+                // Use main ID for profile lookup if available, else use home ID
+                const finalId = verification.mainId;
+
+                return {
+                    type: 'home',
+                    id: finalId, 
+                    name: row[0] || '', // Col B
+                    reason: row[8] || '', // Col J
+                    duration: row[9] || '', // Col K
+                    dateOut: row[10] || '', // Col L
+                    timeOut: row[13] || '', // Col O
+                    dateIn: row[14] || '', // Col P
+                    timeIn: row[15] || '', // Col Q
+                    sortDate: parseDateForSort(row[10])
+                };
+            }).filter(item => item && item.name);
+        }
+
         function combineAndSortData() {
-            const combined = [...allData.info, ...allData.leave];
+            // Updated combine logic to include 'home'
+            const combined = [...allData.info, ...allData.leave, ...allData.home];
             allData.combined = combined.sort((a, b) => b.sortDate - a.sortDate);
             checkNotReturnedStatus();
         }
 
         function parseProfileData(rows) {
             const profileMap = {};
+            homeVerificationMap = {}; // Reset map
             const imageUrlRegex = /=IMAGE\("([^"]+)"/; 
+
             rows.forEach(row => {
                 if (row && (row[0] !== null && row[0] !== undefined && row[0] !== '')) {
-                    const id = String(row[0]); 
-                    let photoUrl = row[11] || '';
+                    const id = String(row[0]).trim(); // Col E (Index 0)
+                    
+                    // Home Verification Data
+                    const status = String(row[1] || '').trim().toUpperCase(); // Col F (Index 1)
+                    const verificationId = String(row[5] || '').trim(); // Col J (Index 5)
+                    
+                    if (verificationId) {
+                        homeVerificationMap[verificationId] = {
+                            status: status,
+                            mainId: id
+                        };
+                    }
+                    
+                    let photoUrl = row[11] || ''; // Col P? No, wait. Range E9:W.
                     const match = photoUrl.match(imageUrlRegex);
                     if (match && match[1]) photoUrl = match[1]; 
-                    profileMap[id.trim()] = { 
+                    
+                    profileMap[id] = { 
                         photo: photoUrl, 
                         department: row[14] || '', 
-                        group: row[6] || '', // Group from Column G (Index 6)
-                        telegram: row[22] || '' // Telegram from Column W (Index 22)
+                        group: row[6] || '', // Column G (Index 2 in original range? Let's verify E9:W)
+                        // E(0), F(1), G(2)... W(18)
+                        // group: row[2] || '', 
+                        telegram: row[18] || '' // Column W
                     };
+                    
+                     // Re-verify group column index. User said 'G9:G'. 
+                    // If Range E9:W -> E=0, F=1, G=2. Yes, index 2 is correct.
+                     profileMap[id].group = row[2] || '';
                 }
             });
             return profileMap;
@@ -783,7 +864,6 @@
             const searchTerm = searchInput.value.toLowerCase();
             const selectedYear = yearFilter.value;
             const selectedMonth = monthFilter.value;
-            
             const start = startDateFilter.value ? new Date(startDateFilter.value) : null;
             const end = endDateFilter.value ? new Date(endDateFilter.value) : null;
             if(start) start.setHours(0,0,0,0);
@@ -863,15 +943,37 @@
                     const placeholderImg = `https://placehold.co/80x80/e2e8f0/64748b?text=${(item.name || '?').charAt(0)}`;
                     const card = document.createElement('div');
                     
-                    const isInfo = item.type === 'info';
-                    const borderColor = isInfo ? 'border-blue-100' : 'border-green-100';
-                    const nameColor = isInfo ? 'text-blue-700' : 'text-green-700';
-                    const badgeBg = isInfo ? 'bg-blue-50 text-blue-700' : 'bg-green-50 text-green-700';
-                    const imageBorder = isInfo ? 'border-blue-200' : 'border-green-200';
+                    let isInfo = item.type === 'info';
+                    let isHome = item.type === 'home';
+                    let borderColor, nameColor, badgeBg, imageBorder;
+
+                    if (isHome) {
+                        borderColor = 'border-purple-100';
+                        nameColor = 'text-purple-700';
+                        badgeBg = 'bg-purple-100 text-purple-700';
+                        imageBorder = 'border-purple-200';
+                    } else if (isInfo) {
+                        borderColor = 'border-blue-100';
+                        nameColor = 'text-blue-700';
+                        badgeBg = 'bg-blue-100 text-blue-700';
+                        imageBorder = 'border-blue-200';
+                    } else {
+                        borderColor = 'border-green-100';
+                        nameColor = 'text-green-700';
+                        badgeBg = 'bg-green-100 text-green-700';
+                        imageBorder = 'border-green-200';
+                    }
 
                     card.className = `card bg-white p-4 rounded-2xl shadow-sm border ${borderColor} flex flex-row gap-4 cursor-pointer hover:shadow-md transition-all duration-200 h-full items-start`;
                     card.style.animationDelay = `${index * 0.03}s`;
-                    card.onclick = () => showModal(item, profile);
+                    
+                    // DISABLED CLICK FOR STANDARD VIEW
+                    if (currentTab === 'combined') {
+                        card.onclick = () => showModal(item, profile);
+                    } else {
+                        card.onclick = null; 
+                        card.classList.remove('cursor-pointer', 'hover:shadow-md'); // Remove pointer & hover for non-clickable
+                    }
 
                     let contentHTML = `
                         <div class="flex-shrink-0">
@@ -890,10 +992,11 @@
                                 <p class="mb-1 truncate"><span class="text-slate-400">មូលហេតុ:</span> ${item.reason || 'N/A'}</p>
                     `;
 
-                    if (isInfo) {
+                    if (isInfo || isHome) {
+                        let timeColor = isHome ? 'text-purple-600' : 'text-blue-600';
                         contentHTML += `
                                 <div class="flex justify-between text-xs text-slate-500 font-medium">
-                                    <span>ចេញ: ${toKhmerNumber(item.dateOut)} <span class="text-blue-600">${toKhmerNumber(item.timeOut)}</span></span>
+                                    <span>ចេញ: ${toKhmerNumber(item.dateOut)} <span class="${timeColor}">${toKhmerNumber(item.timeOut)}</span></span>
                                 </div>
                             </div>
                         </div>`;
@@ -991,6 +1094,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // --- UI & FILTERS ---
         function populateDateFilters() {
             const now = new Date();
             const currentYear = now.getFullYear();
@@ -1018,6 +1122,7 @@
 
         function switchTab(tabName) {
             currentTab = tabName;
+            // Reset state when switching tabs
             currentPage = 1;
             render();
         }
@@ -1026,6 +1131,7 @@
             const tabs = [
                 { el: tabInfo, name: 'info' },
                 { el: tabLeave, name: 'leave' },
+                { el: tabHome, name: 'home' },
                 { el: tabCombined, name: 'combined' },
                 { el: tabSettings, name: 'settings' }
             ];
@@ -1045,13 +1151,16 @@
              const navButtons = [
                 { btn: navBtnInfo, name: 'info' },
                 { btn: navBtnLeave, name: 'leave' },
+                { btn: navBtnHome, name: 'home' },
                 { btn: navBtnCombined, name: 'combined' },
                 { btn: navBtnSettings, name: 'settings' }
             ];
+
             navButtons.forEach(item => {
                 const isActive = item.name === tabName;
                 const svg = item.btn.querySelector('svg');
                 const text = item.btn.querySelector('span');
+                
                 if (isActive) {
                     item.btn.classList.add('nav-item-active');
                     svg.classList.remove('text-slate-400');
@@ -1068,6 +1177,7 @@
             });
         }
 
+        // Helper to check if there are not returned people
         function checkNotReturnedStatus() {
             const now = new Date();
             const notReturnedList = allData.info.filter(item => {
@@ -1078,10 +1188,12 @@
             notReturnedBadge.classList.toggle('hidden', notReturnedList.length === 0);
         }
         
+        // --- Modal Logic ---
         function checkApiKey() {
             populateDateFilters();
             const savedKey = localStorage.getItem('googleApiKey');
             if (savedKey) GOOGLE_API_KEY = savedKey;
+
             if (GOOGLE_API_KEY) {
                  apiKeySection.classList.add('hidden');
                  mainContent.classList.remove('hidden');
@@ -1092,6 +1204,7 @@
             }
         }
 
+        // --- Event Listeners ---
         saveApiKeyButton.addEventListener('click', () => {
             const key = apiKeyInput.value.trim();
             if (key) {
@@ -1143,11 +1256,13 @@
         
         tabInfo.addEventListener('click', () => switchTab('info'));
         tabLeave.addEventListener('click', () => switchTab('leave'));
+        tabHome.addEventListener('click', () => switchTab('home'));
         tabCombined.addEventListener('click', () => switchTab('combined'));
         tabSettings.addEventListener('click', () => switchTab('settings'));
 
         navBtnInfo.addEventListener('click', () => switchTab('info'));
         navBtnLeave.addEventListener('click', () => switchTab('leave'));
+        navBtnHome.addEventListener('click', () => switchTab('home'));
         navBtnCombined.addEventListener('click', () => switchTab('combined'));
         navBtnSettings.addEventListener('click', () => switchTab('settings'));
 
@@ -1166,6 +1281,7 @@
             const swipeThreshold = 50; 
             const filteredData = getFilteredData();
             const totalPages = Math.ceil(filteredData.length / cardsPerPage);
+
             if (touchEndX < touchStartX - swipeThreshold) { 
                 if (currentPage < totalPages) changePage(currentPage + 1);
             }
